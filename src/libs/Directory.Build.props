@@ -18,10 +18,10 @@
   <PropertyGroup Label="Nuget">
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Authors>havendv</Authors>
+    <Authors>ZGGSONG</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/HavenDV/$PROJECT_NAME$</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/HavenDV/$PROJECT_NAME$</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ZGGSONG/PracticalToolkit</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ZGGSONG/PracticalToolkit</RepositoryUrl>
     <PackageIcon>nuget_icon.png</PackageIcon>
   </PropertyGroup>
 

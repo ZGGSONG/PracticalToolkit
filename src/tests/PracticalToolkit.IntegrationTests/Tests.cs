@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
 
-namespace $PROJECT_NAME$.UnitTests
+namespace PracticalToolkit.IntegrationTests
 {
     [TestClass]
     public class Tests
