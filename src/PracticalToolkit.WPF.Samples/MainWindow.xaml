@@ -8,7 +8,7 @@
                  xmlns:s="https://github.com/zggsong/2022/xaml"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  mc:Ignorable="d"
-                 FontSize="24"
+                 FontSize="18"
                  Height="500"
                  Width="400"
                  Topmost="True"
@@ -98,6 +98,10 @@
 
                 <GroupBox Header="SpecialCharacter" Padding="5" Margin="5">
                     <TextBox Margin="5" s:DisallowSpecialCharactersTextboxBehavior.DisallowSpecialCharacters="True" />
+                </GroupBox>
+
+                <GroupBox Header="Placeholder" Padding="5" Margin="5">
+                    <s:PlaceholderTextBox Foreground="White" CaretBrush="White" />
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>
