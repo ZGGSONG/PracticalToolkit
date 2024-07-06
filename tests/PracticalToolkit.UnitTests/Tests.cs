@@ -1,13 +1,10 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PracticalToolkit.UnitTests;
 
 public class Tests
 {
-    [Fact()]
+    [Fact]
     public async Task AsyncTest()
     {
         using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
@@ -16,7 +13,7 @@ public class Tests
         await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
     }
 
-    [Fact()]
+    [Fact]
     public void Test()
     {
         Assert.Equal("", "");

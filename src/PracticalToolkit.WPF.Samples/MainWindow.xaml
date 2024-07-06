@@ -1,0 +1,86 @@
+﻿<ui:FluentWindow x:Class="PracticalToolkit.WPF.Samples.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:PracticalToolkit.WPF.Samples"
+                 xmlns:model="clr-namespace:PracticalToolkit.WPF.Samples.Models"
+                 xmlns:s="https://github.com/zggsong/2022/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 mc:Ignorable="d"
+                 FontSize="24"
+                 Height="500"
+                 Width="400"
+                 Topmost="True"
+                 WindowStartupLocation="CenterScreen"
+                 Title="PracticalToolkit.WPF.Samples">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <s:BindingProxy x:Key="Vm" Data="{Binding .}" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <s:BooleanToVisibilityReverseConverter x:Key="BooleanToVisibilityConverterReverse" />
+    </Window.Resources>
+    <StackPanel>
+        <ui:TitleBar Title="PracticalToolkit.WPF.Samples" />
+        <!--<ui:Card Margin="8">
+            <ui:Button Content="Hello World" Icon="{ui:SymbolIcon Fluent24}" />
+        </ui:Card>-->
+        <StackPanel Margin="8">
+            <GroupBox Header="EnumerationExtension" Padding="5" Margin="5">
+                <ComboBox Margin="0 5"
+                          ItemsSource="{Binding Source={s:Enumeration {x:Type  model:Fruit}}}"
+                          SelectedValue="{Binding SelectedFruit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="Description"
+                          SelectedValuePath="Value" />
+            </GroupBox>
+
+            <GroupBox Header="PasswordHelper" Padding="5" Margin="5">
+                <StackPanel>
+                    <PasswordBox Margin="0 5"
+                                 PasswordChar="⬤"
+                                 s:PasswordHelper.Attach="True"
+                                 s:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" />
+                    <TextBlock Margin="0 5">
+                        <Run Text="密码: " />
+                        <Run Text="{Binding Password}" FontWeight="Bold" Foreground="Aqua" />
+                    </TextBlock>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="BindingProxy" Padding="5" Margin="5">
+                <Grid>
+                    <ToggleButton Margin="0 5"
+                                  Name="ModeTb"
+                                  Content="点击展开" />
+                    <Popup IsOpen="{Binding ElementName=ModeTb, Path=IsChecked}"
+                           StaysOpen="False"
+                           AllowsTransparency="True"
+                           PopupAnimation="Slide"
+                           PlacementTarget="{Binding ElementName=ModeTb}"
+                           Placement="Bottom">
+                        <Border CornerRadius="5"
+                                MinWidth="80"
+                                Background="#202020"
+                                BorderBrush="#6ec2d2"
+                                BorderThickness="1">
+                            <StackPanel Background="Transparent" HorizontalAlignment="Center">
+                                <Button Content="刷新时间"
+                                        Margin="5"
+                                        Command="{Binding Source={StaticResource Vm}, Path=Data.Btn1Command}"/>
+                                <TextBlock Text="{Binding Source={StaticResource Vm}, Path=Data.Content}" Margin="5" />
+                                <Separator />
+                                <ToggleButton Name="VisibilityTb"
+                                              Margin="5"
+                                              Content="显示隐藏" />
+                                <TextBlock Text="BooleanToVisibilityConverter" Visibility="{Binding ElementName=VisibilityTb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <TextBlock Text="BooleanToVisibilityConverterReverse" Visibility="{Binding ElementName=VisibilityTb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverterReverse}}" />
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+    </StackPanel>
+</ui:FluentWindow>

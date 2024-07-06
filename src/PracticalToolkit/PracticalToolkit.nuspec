@@ -2,16 +2,16 @@
 <package >
   <metadata>
     <id>PracticalToolkit</id>
-    <version>0.0.3</version>
+    <version>0.0.1</version>
     <authors>zggsong</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <!-- <icon>nuget_icon.png</icon> -->
+    <icon>..\..\nuget.png</icon>
     <projectUrl>https://github.com/ZGGSONG/PracticalToolkit/</projectUrl>
     <description>Practical Toolkit</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright ©2024 zggsong</copyright>
-    <tags>TimerDisposable;PasswordHelper;BindingProxy;Extensions</tags>
+    <tags>TimerDisposable</tags>
   </metadata>
   <files>
     <file src="bin\Release\netstandard2.0\PracticalToolkit.dll" target="lib\netstandard2.0\" />
