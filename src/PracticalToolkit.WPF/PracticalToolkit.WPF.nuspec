@@ -6,15 +6,20 @@
     <authors>zggsong</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <icon>..\..\nuget.png</icon> 
+    <!-- <icon>nuget.png</icon> -->
     <projectUrl>https://github.com/ZGGSONG/PracticalToolkit.WPF/</projectUrl>
     <description>Practical Toolkit For WPF</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright ©2024 zggsong</copyright>
-    <tags>PasswordHelper;BindingProxy;EnumerationExtension</tags>
+    <tags>Controls;Converters;Extensions;Utils;PasswordHelper;BindingProxy</tags>
+    <dependencies>
+      <group targetFramework="net8.0-windows">
+        <dependency id="System.Runtime.Serialization" version="4.0.3" />
+        <dependency id="System.ComponentModel.DataAnnotations" version="6.2.0" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\netstandard2.0\PracticalToolkit.WPF.dll" target="lib\netstandard2.0\" />
-    <file src="bin\Release\net8.0\PracticalToolkit.WPF.dll" target="lib\net8.0\" />
+    <file src="bin\Release\net8.0-windows\PracticalToolkit.WPF.dll" target="" />
   </files>
 </package>

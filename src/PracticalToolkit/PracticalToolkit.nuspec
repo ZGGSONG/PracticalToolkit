@@ -2,11 +2,11 @@
 <package >
   <metadata>
     <id>PracticalToolkit</id>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <authors>zggsong</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <icon>..\..\nuget.png</icon>
+    <!-- <icon>nuget.png</icon> -->
     <projectUrl>https://github.com/ZGGSONG/PracticalToolkit/</projectUrl>
     <description>Practical Toolkit</description>
     <releaseNotes></releaseNotes>
