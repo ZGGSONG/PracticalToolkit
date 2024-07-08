@@ -4,5 +4,8 @@
 	<Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	<RepositoryUrl>https://github.com/ZGGSONG/PracticalToolkit/</RepositoryUrl>
+	
+	<!-- Define NuGet Packaging Directory -->
+	<NugetTargetDirectory>$(SolutionDir)artifacts\</NugetTargetDirectory>
   </PropertyGroup>
 </Project>

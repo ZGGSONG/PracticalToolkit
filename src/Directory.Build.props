@@ -7,6 +7,7 @@
 	<Authors>zggsong</Authors>
 	<PackageIcon>nuget.png</PackageIcon>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageOutputPath>$(NugetTargetDirectory)</PackageOutputPath>
 	<PackageReleaseNotes>https://github.com/ZGGSONG/PracticalToolkit/Releases</PackageReleaseNotes>
 	<PackageProjectUrl>https://github.com/ZGGSONG/PracticalToolkit/</PackageProjectUrl>
   </PropertyGroup>
