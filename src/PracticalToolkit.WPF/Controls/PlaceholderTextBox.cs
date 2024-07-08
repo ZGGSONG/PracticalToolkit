@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace PracticalToolkit.WPF.Controls;
 
 /// <summary>
-///     带占位符的文本输入控件
+///     A text input control with placeholders.
 /// </summary>
 public class PlaceholderTextBox : TextBox
 {
@@ -74,7 +74,7 @@ public class PlaceholderTextBox : TextBox
     );
 
     /// <summary>
-    ///     占位符
+    ///     Placeholder
     /// </summary>
     public string Placeholder
     {
