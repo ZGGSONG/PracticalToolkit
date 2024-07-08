@@ -4,11 +4,14 @@
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
   </PropertyGroup>
 
-  <!-- <PropertyGroup>
-    <Version>1.0.0</Version>
-    <PackageReleaseNotes></PackageReleaseNotes>
+  <PropertyGroup Label="Nuget">
+    <Version>1.0.2</Version>
     <Description>Practical Toolkit</Description>
-    <PackageTags>TimerDisposable;PasswordHelper;BindingProxy;Extensions</PackageTags>
-  </PropertyGroup> -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>BusyDisposable;TimerDisposable</PackageTags>
+  </PropertyGroup>
 
+  <ItemGroup Label="Nuget">
+	<None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

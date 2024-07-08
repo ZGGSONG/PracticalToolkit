@@ -5,4 +5,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup Label="Nuget">
+	<Version>1.0.0</Version>
+	<Description>Practical Toolkit For WPF</Description>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageTags>Controls;Converters;Extensions;Utils;PasswordHelper;BindingProxy</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Label="Nuget">
+	<None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>
