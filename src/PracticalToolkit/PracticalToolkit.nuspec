@@ -2,18 +2,21 @@
 <package >
   <metadata>
     <id>PracticalToolkit</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>zggsong</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <!-- <icon>nuget.png</icon> -->
+     <icon>resources\nuget.png</icon> 
     <projectUrl>https://github.com/ZGGSONG/PracticalToolkit/</projectUrl>
     <description>Practical Toolkit</description>
-    <releaseNotes></releaseNotes>
+    <readme>docs\README.md</readme>
+    <releaseNotes>Add BusyDisposable</releaseNotes>
     <copyright>Copyright ©2024 zggsong</copyright>
-    <tags>TimerDisposable</tags>
+    <tags>BusyDisposable;TimerDisposable</tags>
   </metadata>
   <files>
+    <file src="README.md" target="docs\" />
+    <file src="..\..\nuget.png" target="resources\" />
     <file src="bin\Release\netstandard2.0\PracticalToolkit.dll" target="lib\netstandard2.0\" />
     <file src="bin\Release\net8.0\PracticalToolkit.dll" target="lib\net8.0\" />
   </files>

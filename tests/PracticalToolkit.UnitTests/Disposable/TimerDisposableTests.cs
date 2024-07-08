@@ -1,19 +1,16 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using PracticalToolkit.Disposable;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace PracticalToolkit.UnitTests;
+namespace PracticalToolkit.UnitTests.Disposable;
 
 public class TimerDisposableTests(ITestOutputHelper testOutputHelper)
 {
-    private readonly TimeSpan _timeOutSecond = TimeSpan.FromSeconds(1);
-    private readonly TimeSpan _timeOutCancelSecond = TimeSpan.FromSeconds(0.5);
-
     private const double Tolerance = 30.0;
+    private readonly TimeSpan _timeOutCancelSecond = TimeSpan.FromSeconds(0.5);
+    private readonly TimeSpan _timeOutSecond = TimeSpan.FromSeconds(1);
 
-    [Fact()]
+    [Fact]
     public async Task AsyncTest()
     {
         using var _ = new TimerDisposable(elapsed =>
@@ -24,7 +21,7 @@ public class TimerDisposableTests(ITestOutputHelper testOutputHelper)
         await Task.Delay(_timeOutSecond);
     }
 
-    [Fact()]
+    [Fact]
     public async Task AsyncWithCancelTest()
     {
         using var cancellationTokenSource = new CancellationTokenSource(_timeOutCancelSecond);
@@ -38,14 +35,14 @@ public class TimerDisposableTests(ITestOutputHelper testOutputHelper)
 #else
                 80.0
 #endif
-                );
+            );
             testOutputHelper.WriteLine("操作耗时: {0}\t预计时间: {1}\t误差时长: {2}ms", elapsed, _timeOutCancelSecond,
 #if NET8_0
                 Tolerance
 #else
                 80.0
 #endif
-                );
+            );
         });
         try
         {
@@ -57,7 +54,7 @@ public class TimerDisposableTests(ITestOutputHelper testOutputHelper)
         }
     }
 
-    [Fact()]
+    [Fact]
     public void Test()
     {
         using var _ = new TimerDisposable(elapsed =>

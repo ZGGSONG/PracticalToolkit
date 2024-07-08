@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace PracticalToolkit;
+namespace PracticalToolkit.Disposable;
 
 /// <summary>
 ///     Represents a disposable timer that measures the elapsed time.
