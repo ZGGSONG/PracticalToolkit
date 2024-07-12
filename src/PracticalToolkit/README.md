@@ -1,4 +1,4 @@
-# Application Method
+ï»¿# Application Method
 
 ## Disposable
 
@@ -38,7 +38,7 @@ public void DoSomething()
 {
     using var _ = new TimerDisposable(elapsed =>
     {
-        System.Diagnostics.Debug.WriteLine($"²Ù×÷ºÄÊ±: {elapsed}");
+        System.Diagnostics.Debug.WriteLine($"æ“ä½œè€—æ—¶: {elapsed}");
     });
     // Perform operations that require timing here.
     Thread.Sleep(_timeOutSecond);

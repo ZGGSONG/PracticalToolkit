@@ -29,4 +29,7 @@ public partial class MainViewModel : ObservableObject
     {
         Content = DateTime.Now.ToString("HH:mm:ss.fff");
     }
+
+    [ObservableProperty]
+    private string _passwordMarkText = string.Empty;
 }

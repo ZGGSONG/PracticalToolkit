@@ -40,12 +40,11 @@
                 <GroupBox Header="PasswordHelper" Padding="5" Margin="5">
                     <StackPanel>
                         <PasswordBox Margin="0 5"
-                                     PasswordChar="⬤"
                                      s:PasswordHelper.Attach="True"
                                      s:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" />
                         <TextBlock Margin="0 5">
                             <Run Text="密码: " />
-                            <Run Text="{Binding Password}" FontWeight="Bold" Foreground="Aqua" />
+                            <Run Text="{Binding Password}" FontWeight="Bold" Foreground="BlueViolet" />
                         </TextBlock>
                     </StackPanel>
                 </GroupBox>
@@ -63,8 +62,8 @@
                                Placement="Bottom">
                             <Border CornerRadius="5"
                                     MinWidth="80"
-                                    Background="#202020"
-                                    BorderBrush="#6ec2d2"
+                                    Background="#fafafa"
+                                    BorderBrush="LightGray"
                                     BorderThickness="1">
                                 <StackPanel Background="Transparent" HorizontalAlignment="Center">
                                     <Button Content="刷新时间1"
@@ -101,7 +100,21 @@
                 </GroupBox>
 
                 <GroupBox Header="Placeholder" Padding="5" Margin="5">
-                    <s:PlaceholderTextBox Foreground="White" CaretBrush="White" />
+                    <s:PlaceholderTextBox />
+                </GroupBox>
+
+                <GroupBox Header="PasswordBoxMarkText" Padding="5" Margin="5">
+                    <StackPanel>
+                        <PasswordBox Margin="0 5"
+                                     Style="{DynamicResource PasswordBoxMarkTextStyle}"
+                                     Tag="输入你的密码"
+                                     s:PasswordHelper.Attach="True"
+                                     s:PasswordHelper.Password="{Binding PasswordMarkText, Mode=TwoWay}" />
+                        <TextBlock Margin="0 5">
+                            <Run Text="密码: " />
+                            <Run Text="{Binding PasswordMarkText}" FontWeight="Bold" Foreground="BlueViolet" />
+                        </TextBlock>
+                    </StackPanel>
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>

@@ -8,7 +8,7 @@ xmlns:s="https://github.com/zggsong/2022/xaml"
 
 # Useage
 
-- View the [Samples](../PracticalToolkit.WPF.Samples) Project
+- View the [Samples](https://github.com/ZGGSONG/PracticalToolkit/tree/main/src/PracticalToolkit.WPF.Samples) Project
 - Below is the example code.
 
 ## EnumerationExtension
@@ -108,7 +108,6 @@ public enum Fruit
 
 ```xaml
 <PasswordBox Margin="0 5"
-    PasswordChar="⬤"
     s:PasswordHelper.Attach="True"
     s:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" />
 ```
@@ -119,4 +118,17 @@ public enum Fruit
 
 ```xaml
 <s:PlaceholderTextBox Placeholder="Username" />
+```
+
+## PasswordBoxMarkTextStyle
+
+> Support password box to display binding watermark information by Tag
+> Required to work with `PasswordHelper`
+
+```xaml
+<PasswordBox Margin="0 5"
+    Style="{DynamicResource PasswordBoxMarkTextStyle}"
+    Tag="输入你的密码"
+    s:PasswordHelper.Attach="True"
+    s:PasswordHelper.Password="{Binding PasswordMarkText, Mode=TwoWay}" />
 ```
