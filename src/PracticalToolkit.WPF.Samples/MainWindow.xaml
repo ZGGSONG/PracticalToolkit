@@ -8,7 +8,6 @@
                  xmlns:s="https://github.com/zggsong/2022/xaml"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  mc:Ignorable="d"
-                 FontSize="18"
                  Height="500"
                  Width="400"
                  Topmost="True"
@@ -115,6 +114,10 @@
                             <Run Text="{Binding PasswordMarkText}" FontWeight="Bold" Foreground="BlueViolet" />
                         </TextBlock>
                     </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="TextBoxRounded" Padding="5" Margin="5">
+                    <TextBox Margin="0 5" Style="{DynamicResource TextBoxRoundedStyle}" />
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>

@@ -125,10 +125,27 @@ public enum Fruit
 > Support password box to display binding watermark information by Tag
 > Required to work with `PasswordHelper`
 
+
+```xml
+<ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/PasswordBoxStyle.xaml" />
+```
+
 ```xaml
 <PasswordBox Margin="0 5"
     Style="{DynamicResource PasswordBoxMarkTextStyle}"
     Tag="输入你的密码"
     s:PasswordHelper.Attach="True"
     s:PasswordHelper.Password="{Binding PasswordMarkText, Mode=TwoWay}" />
+```
+
+## TextBoxRoundedStyle
+
+> Rounded text box style
+
+```xaml
+<ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/TextBoxStyle.xaml" />
+```
+
+```xaml
+<TextBox Margin="0 5" Style="{DynamicResource TextBoxRoundedStyle}" />
 ```

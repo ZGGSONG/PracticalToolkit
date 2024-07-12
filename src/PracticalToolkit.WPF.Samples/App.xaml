@@ -9,6 +9,7 @@
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
                 <ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/PasswordBoxStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/TextBoxStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
