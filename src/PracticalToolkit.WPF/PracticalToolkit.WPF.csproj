@@ -13,6 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Remove="Resources\Icons\AngleDown.xaml" />
+    <Page Remove="Resources\Icons\AngleUp.xaml" />
     <Page Remove="Resources\Icons\Home.xaml" />
   </ItemGroup>
 
@@ -21,6 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Icons\AngleDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Resources\Icons\AngleUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Resource Include="Resources\Icons\Home.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>

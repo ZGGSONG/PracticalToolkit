@@ -1,0 +1,7 @@
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Width="1024" Height="1024">
+        <Path Fill="{Binding Path = Foreground, RelativeSource = { RelativeSource AncestorType ={ x:Type Label } }}"
+              Data="M546 319.4l272 272c18.8 18.8 18.8 49.2 0 67.8l-45.2 45.2c-18.8 18.8-49.2 18.8-67.8 0L512 511.8l-192.8 192.8c-18.8 18.8-49.2 18.8-67.8 0L206 659.4c-18.8-18.8-18.8-49.2 0-67.8l272-272c18.8-19 49.2-19 68-0.2z" />
+    </Grid>
+</Viewbox>

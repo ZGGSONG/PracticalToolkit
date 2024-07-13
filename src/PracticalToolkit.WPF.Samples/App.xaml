@@ -5,8 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/PasswordBoxStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/TextBoxStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

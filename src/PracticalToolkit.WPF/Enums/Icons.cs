@@ -3,5 +3,7 @@
 public enum Icons
 {
     None,
-    Home
+    Home,
+    AngleUp,
+    AngleDown,
 }
