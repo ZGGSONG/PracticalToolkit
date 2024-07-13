@@ -46,7 +46,8 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <control:XamlIcon x:Name="InButton"
-                                                      Height="20" Width="20"
+                                                      Height="15"
+                                                      Width="{Binding ElementName=InButton, Path=Height}"
                                                       VerticalAlignment="Center"
                                                       Cursor="Hand"
                                                       Icon="AngleUp" />
@@ -55,7 +56,8 @@
                                                Fill="#eee" />
                                     <control:XamlIcon x:Name="DeButton"
                                                       Grid.Row="2"
-                                                      Height="20" Width="20"
+                                                      Height="{Binding ElementName=InButton, Path=Height}"
+                                                      Width="{Binding ElementName=InButton, Path=Height}"
                                                       VerticalAlignment="Center"
                                                       Cursor="Hand"
                                                       Icon="AngleDown" />
