@@ -115,6 +115,14 @@
                     <TextBox Margin="0 5" Style="{DynamicResource TextBoxRoundedStyle}" />
                 </GroupBox>
 
+                <GroupBox Header="XamlIcon" Padding="5" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <s:XamlIcon Icon="Home" Height="50" Width="50" Foreground="DarkSeaGreen" Margin="10" />
+                        <s:XamlIcon Icon="Home" Height="75" Width="75" Foreground="DimGray" Margin="10" />
+                        <s:XamlIcon Icon="Home" Height="100" Width="100" Foreground="IndianRed" Margin="10" />
+                    </StackPanel>
+                </GroupBox>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
