@@ -153,5 +153,6 @@ public enum Fruit
     Maximum="50"
     Step="5"
     FontSize="14"
+    IconSize="14"
     Tag="请输入数字..." />
 ```
