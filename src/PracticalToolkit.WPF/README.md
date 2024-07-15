@@ -149,3 +149,13 @@ public enum Fruit
 ```xaml
 <TextBox Margin="0 5" Style="{DynamicResource TextBoxRoundedStyle}" />
 ```
+
+## NumericUpDown
+
+```xaml
+<s:NumericUpDown Minimum="0"
+    Maximum="50"
+    Step="5"
+    FontSize="14"
+    Tag="请输入数字..." />
+```

@@ -125,8 +125,9 @@
 
                 <GroupBox Header="NumericUpDown" Padding="5" Margin="5">
                     <s:NumericUpDown Minimum="0"
+                                     Maximum="50"
                                      Step="5"
-                                     FontSize="18"
+                                     FontSize="14"
                                      Tag="请输入数字..." />
                 </GroupBox>
 

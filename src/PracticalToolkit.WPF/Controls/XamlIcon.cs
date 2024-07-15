@@ -17,7 +17,7 @@ public class XamlIcon : Label
             new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.AffectsMeasure,
                 IconSizeChangedCallback));
 
-    private readonly Dictionary<string, Viewbox> _globalIcon = new();
+    private readonly Dictionary<string, Viewbox> _globalIcon = [];
 
     public XamlIcon()
     {

@@ -45,14 +45,14 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <control:XamlIcon x:Name="InButton"
+                                    <control:XamlIcon x:Name="IncreaseBtn"
                                                       Icon="AngleUp"
                                                       IconSize="15"
                                                       Cursor="Hand" />
                                     <Rectangle Grid.Row="1"
                                                Height="1"
                                                Fill="#eee" />
-                                    <control:XamlIcon x:Name="DeButton"
+                                    <control:XamlIcon x:Name="DecreaseBtn"
                                                       Grid.Row="2"
                                                       Icon="AngleDown"
                                                       IconSize="13"

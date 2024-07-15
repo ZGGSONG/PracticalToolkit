@@ -12,6 +12,9 @@ public class NumericUpDown : TextBox
     public static readonly DependencyProperty MinimumProperty =
         DependencyProperty.Register(nameof(Minimum), typeof(int), typeof(NumericUpDown), new PropertyMetadata(0));
 
+    public static readonly DependencyProperty MaximumProperty =
+        DependencyProperty.Register(nameof(Maximum), typeof(int), typeof(NumericUpDown), new PropertyMetadata(int.MaxValue));
+
     static NumericUpDown()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown),
@@ -35,17 +38,23 @@ public class NumericUpDown : TextBox
         set => SetValue(MinimumProperty, value);
     }
 
+    public int Maximum
+    {
+        get => (int)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
+
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        var deButton = (XamlIcon)Template.FindName("DeButton", this);
-        var inButton = (XamlIcon)Template.FindName("InButton", this);
+        var decreaseBtn = (XamlIcon)Template.FindName("DecreaseBtn", this);
+        var increaseBtn = (XamlIcon)Template.FindName("IncreaseBtn", this);
 
-        deButton.MouseLeftButtonDown += DeButton_MouseLeftButtonDown;
-        inButton.MouseLeftButtonDown += InButton_MouseLeftButtonDown;
+        decreaseBtn.MouseLeftButtonDown += DecreaseBtn_MouseLeftButtonDown;
+        increaseBtn.MouseLeftButtonDown += IncreaseBtn_MouseLeftButtonDown;
     }
 
-    private void DeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void DecreaseBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (!string.IsNullOrEmpty(Text))
         {
@@ -59,11 +68,11 @@ public class NumericUpDown : TextBox
         }
     }
 
-    private void InButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void IncreaseBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (!string.IsNullOrEmpty(Text) && int.TryParse(Text, out var intValue))
         {
-            Text = intValue + Step + "";
+            Text = intValue + Step > Maximum ? Maximum + "" : intValue + Step + "";
             SelectionStart = Text.Length;
         }
         else
