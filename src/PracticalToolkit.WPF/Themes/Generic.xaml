@@ -2,23 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:control="clr-namespace:PracticalToolkit.WPF.Controls"
                     xmlns:utils="clr-namespace:PracticalToolkit.WPF.Utils">
-
-    <Style TargetType="{x:Type Label}">
-        <Style.Triggers>
-            <!-- 鼠标移入 -->
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#eaeaea" />
-                <Setter Property="Foreground" Value="Black" />
-            </Trigger>
-            <!-- 鼠标点击（Label本身没有IsPressed属性，可以考虑使用EventTrigger结合动画或命令实现） -->
-            <!-- 禁用 -->
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="#f0f1f1" />
-                <Setter Property="Foreground" Value="Gray" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
+    
     <!--// 带增减按钮的数字框 //-->
     <Style TargetType="{x:Type control:NumericUpDown}">
         <Setter Property="Cursor" Value="IBeam" />
