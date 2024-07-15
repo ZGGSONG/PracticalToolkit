@@ -15,6 +15,10 @@ public class NumericUpDown : TextBox
     public static readonly DependencyProperty MaximumProperty =
         DependencyProperty.Register(nameof(Maximum), typeof(int), typeof(NumericUpDown), new PropertyMetadata(int.MaxValue));
 
+    public static readonly DependencyProperty IconSizeProperty =
+        DependencyProperty.Register(nameof(IconSize), typeof(double), typeof(NumericUpDown), new PropertyMetadata(12.0, null));
+
+
     static NumericUpDown()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown),
@@ -42,6 +46,11 @@ public class NumericUpDown : TextBox
     {
         get => (int)GetValue(MaximumProperty);
         set => SetValue(MaximumProperty, value);
+    }
+    public double IconSize
+    {
+        get => (double)GetValue(IconSizeProperty);
+        set => SetValue(IconSizeProperty, value);
     }
 
     public override void OnApplyTemplate()
