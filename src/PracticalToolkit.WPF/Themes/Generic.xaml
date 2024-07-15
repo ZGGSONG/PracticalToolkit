@@ -23,7 +23,7 @@
                                 <ColumnDefinition Width="30" />
                             </Grid.ColumnDefinitions>
                             <ScrollViewer x:Name="PART_ContentHost"
-                                          Margin="6,0,0,0"
+                                          Margin="3,0,0,0"
                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           Focusable="false"
                                           HorizontalScrollBarVisibility="Hidden"
@@ -46,21 +46,17 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <control:XamlIcon x:Name="InButton"
-                                                      Height="15"
-                                                      Width="{Binding ElementName=InButton, Path=Height}"
-                                                      VerticalAlignment="Center"
-                                                      Cursor="Hand"
-                                                      Icon="AngleUp" />
+                                                      Icon="AngleUp"
+                                                      IconSize="15"
+                                                      Cursor="Hand" />
                                     <Rectangle Grid.Row="1"
                                                Height="1"
                                                Fill="#eee" />
                                     <control:XamlIcon x:Name="DeButton"
                                                       Grid.Row="2"
-                                                      Height="{Binding ElementName=InButton, Path=Height}"
-                                                      Width="{Binding ElementName=InButton, Path=Height}"
-                                                      VerticalAlignment="Center"
-                                                      Cursor="Hand"
-                                                      Icon="AngleDown" />
+                                                      Icon="AngleDown"
+                                                      IconSize="13"
+                                                      Cursor="Hand"/>
                                 </Grid>
                             </Border>
                         </Grid>
