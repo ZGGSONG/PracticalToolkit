@@ -6,6 +6,10 @@ Introducing Namespaces
 xmlns:s="https://github.com/zggsong/2022/xaml"
 ```
 
+```xml
+<ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Themes/Generic.xaml" />
+```
+
 # Useage
 
 - View the [Samples](https://github.com/ZGGSONG/PracticalToolkit/tree/main/src/PracticalToolkit.WPF.Samples) Project
@@ -126,10 +130,6 @@ public enum Fruit
 > Required to work with `PasswordHelper`
 
 
-```xml
-<ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/PasswordBoxStyle.xaml" />
-```
-
 ```xaml
 <PasswordBox Margin="0 5"
     Style="{DynamicResource PasswordBoxMarkTextStyle}"
@@ -141,10 +141,6 @@ public enum Fruit
 ## TextBoxRoundedStyle
 
 > Rounded text box style
-
-```xaml
-<ResourceDictionary Source="pack://application:,,,/PracticalToolkit.WPF;component/Styles/TextBoxStyle.xaml" />
-```
 
 ```xaml
 <TextBox Margin="0 5" Style="{DynamicResource TextBoxRoundedStyle}" />
