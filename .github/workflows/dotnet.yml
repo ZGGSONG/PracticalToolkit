@@ -32,8 +32,4 @@ jobs:
       run: dotnet test --configuration Release --nologo
         
     - name: Publish
-      run: dotnet nuget push
-        artifacts\**.nupkg
-        --api-key ${{ secrets.NUGET_KEY }}
-        --source ${{ secrets.NUGET_SOURCE }}
-        --skip-duplicate
+      run:  dotnet nuget push -s ${{ secrets.NUGET_SOURCE }} -k ${{ secrets.NUGET_KEY }} artifacts\**.nupkg
