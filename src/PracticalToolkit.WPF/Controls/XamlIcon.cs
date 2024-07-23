@@ -2,6 +2,9 @@
 using System.Windows.Controls;
 using System.Windows.Markup;
 using PracticalToolkit.WPF.Enums;
+using Application = System.Windows.Application;
+using Label = System.Windows.Controls.Label;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
 
 namespace PracticalToolkit.WPF.Controls;
 

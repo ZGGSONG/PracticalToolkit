@@ -132,6 +132,10 @@
                                      Tag="请输入数字..." />
                 </GroupBox>
 
+                <GroupBox Header="ScreenShot" Padding="5" Margin="5">
+                    <Button Content="截图" Command="{Binding ScreenShotCommand}" />
+                </GroupBox>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

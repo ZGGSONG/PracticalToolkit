@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
+using Binding = System.Windows.Data.Binding;
+using Brushes = System.Windows.Media.Brushes;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace PracticalToolkit.WPF.Controls;
 
