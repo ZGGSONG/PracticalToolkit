@@ -21,118 +21,147 @@
         <s:BooleanToVisibilityReverseConverter x:Key="BooleanToVisibilityConverterReverse" />
     </Window.Resources>
     <Grid>
-        <ScrollViewer Margin="8 ">
-            <StackPanel>
-                <GroupBox Header="EnumerationExtension" Padding="5" Margin="5">
-                    <ComboBox Margin="0 5"
-                              ItemsSource="{Binding Source={s:Enumeration {x:Type  model:Fruit}}}"
-                              SelectedValue="{Binding SelectedFruit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Description"
-                              SelectedValuePath="Value" />
-                </GroupBox>
-
-                <GroupBox Header="PasswordHelper" Padding="5" Margin="5">
+        <TabControl>
+            <TabItem Header="WPF Sample">
+                <ScrollViewer Margin="8 ">
                     <StackPanel>
-                        <PasswordBox Margin="0 5"
-                                     s:PasswordHelper.Attach="True"
-                                     s:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" />
-                        <TextBlock Margin="0 5">
-                            <Run Text="密码: " />
-                            <Run Text="{Binding Password}" FontWeight="Bold" Foreground="BlueViolet" />
-                        </TextBlock>
+                        <GroupBox Header="EnumerationExtension" Padding="5" Margin="5">
+                            <ComboBox Margin="0 5"
+                                      ItemsSource="{Binding Source={s:Enumeration {x:Type  model:Fruit}}}"
+                                      SelectedValue="{Binding SelectedFruit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Description"
+                                      SelectedValuePath="Value" />
+                        </GroupBox>
+
+                        <GroupBox Header="PasswordHelper" Padding="5" Margin="5">
+                            <StackPanel>
+                                <PasswordBox Margin="0 5"
+                                             s:PasswordHelper.Attach="True"
+                                             s:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" />
+                                <TextBlock Margin="0 5">
+                                    <Run Text="密码: " />
+                                    <Run Text="{Binding Password}" FontWeight="Bold" Foreground="BlueViolet" />
+                                </TextBlock>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="BindingProxy" Padding="5" Margin="5">
+                            <Grid>
+                                <ToggleButton Margin="0 5"
+                                              Name="ModeTb"
+                                              Content="点击展开" />
+                                <Popup IsOpen="{Binding ElementName=ModeTb, Path=IsChecked}"
+                                       StaysOpen="False"
+                                       AllowsTransparency="True"
+                                       PopupAnimation="Slide"
+                                       PlacementTarget="{Binding ElementName=ModeTb}"
+                                       Placement="Bottom">
+                                    <Border CornerRadius="5"
+                                            MinWidth="80"
+                                            Background="#fafafa"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1">
+                                        <StackPanel Background="Transparent" HorizontalAlignment="Center">
+                                            <Button Content="刷新时间1"
+                                                    Margin="5"
+                                                    Command="{Binding Source={StaticResource Vm}, Path=Data.Btn1Command}" />
+                                            <TextBlock Text="{Binding Source={StaticResource Vm}, Path=Data.Content}"
+                                                       Margin="5" />
+                                            <Button Content="刷新时间2"
+                                                    Margin="5"
+                                                    Command="{Binding Source={StaticResource Vm}, Path=Data.Btn1Command}" />
+                                            <Separator />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="Converter" Padding="5" Margin="5">
+                            <StackPanel>
+                                <ToggleButton Name="VisibilityTb"
+                                              Margin="5"
+                                              Content="显示隐藏" />
+                                <TextBlock Text="BooleanToVisibilityConverter"
+                                           Margin="5"
+                                           Visibility="{Binding ElementName=VisibilityTb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <TextBlock Text="BooleanToVisibilityConverterReverse"
+                                           Margin="5"
+                                           Visibility="{Binding ElementName=VisibilityTb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverterReverse}}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="SpecialCharacter" Padding="5" Margin="5">
+                            <TextBox Margin="5"
+                                     s:DisallowSpecialCharactersTextboxBehavior.DisallowSpecialCharacters="True" />
+                        </GroupBox>
+
+                        <GroupBox Header="Placeholder" Padding="5" Margin="5">
+                            <s:PlaceholderTextBox />
+                        </GroupBox>
+
+                        <GroupBox Header="PasswordBoxMarkText" Padding="5" Margin="5">
+                            <StackPanel>
+                                <PasswordBox Margin="0 5"
+                                             Style="{DynamicResource PasswordBoxMarkTextStyle}"
+                                             Tag="输入你的密码"
+                                             s:PasswordHelper.Attach="True"
+                                             s:PasswordHelper.Password="{Binding PasswordMarkText, Mode=TwoWay}" />
+                                <TextBlock Margin="0 5">
+                                    <Run Text="密码: " />
+                                    <Run Text="{Binding PasswordMarkText}" FontWeight="Bold" Foreground="BlueViolet" />
+                                </TextBlock>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="TextBoxRounded" Padding="5" Margin="5">
+                            <TextBox Margin="0 5" Style="{DynamicResource TextBoxRoundedStyle}" />
+                        </GroupBox>
+
+                        <GroupBox Header="XamlIcon" Padding="5" Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <s:XamlIcon Icon="Home" IconSize="50" Foreground="DarkSeaGreen" Margin="10" />
+                                <s:XamlIcon Icon="Home" IconSize="75" Foreground="DimGray" Margin="10" />
+                                <s:XamlIcon Icon="Home" IconSize="100" Foreground="IndianRed" Margin="10" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="NumericUpDown" Padding="5" Margin="5">
+                            <s:NumericUpDown Minimum="0"
+                                             Maximum="50"
+                                             Step="5"
+                                             FontSize="14"
+                                             IconSize="14"
+                                             Tag="请输入数字..." />
+                        </GroupBox>
+
                     </StackPanel>
-                </GroupBox>
+                </ScrollViewer>
+            </TabItem>
 
-                <GroupBox Header="BindingProxy" Padding="5" Margin="5">
-                    <Grid>
-                        <ToggleButton Margin="0 5"
-                                      Name="ModeTb"
-                                      Content="点击展开" />
-                        <Popup IsOpen="{Binding ElementName=ModeTb, Path=IsChecked}"
-                               StaysOpen="False"
-                               AllowsTransparency="True"
-                               PopupAnimation="Slide"
-                               PlacementTarget="{Binding ElementName=ModeTb}"
-                               Placement="Bottom">
-                            <Border CornerRadius="5"
-                                    MinWidth="80"
-                                    Background="#fafafa"
-                                    BorderBrush="LightGray"
-                                    BorderThickness="1">
-                                <StackPanel Background="Transparent" HorizontalAlignment="Center">
-                                    <Button Content="刷新时间1"
-                                            Margin="5"
-                                            Command="{Binding Source={StaticResource Vm}, Path=Data.Btn1Command}" />
-                                    <TextBlock Text="{Binding Source={StaticResource Vm}, Path=Data.Content}"
-                                               Margin="5" />
-                                    <Button Content="刷新时间2"
-                                            Margin="5"
-                                            Command="{Binding Source={StaticResource Vm}, Path=Data.Btn1Command}" />
-                                    <Separator />
-                                </StackPanel>
-                            </Border>
-                        </Popup>
-                    </Grid>
-                </GroupBox>
-
-                <GroupBox Header="Converter" Padding="5" Margin="5">
-                    <StackPanel>
-                        <ToggleButton Name="VisibilityTb"
-                                      Margin="5"
-                                      Content="显示隐藏" />
-                        <TextBlock Text="BooleanToVisibilityConverter"
-                                   Margin="5"
-                                   Visibility="{Binding ElementName=VisibilityTb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBlock Text="BooleanToVisibilityConverterReverse"
-                                   Margin="5"
-                                   Visibility="{Binding ElementName=VisibilityTb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverterReverse}}" />
-                    </StackPanel>
-                </GroupBox>
-
-                <GroupBox Header="SpecialCharacter" Padding="5" Margin="5">
-                    <TextBox Margin="5" s:DisallowSpecialCharactersTextboxBehavior.DisallowSpecialCharacters="True" />
-                </GroupBox>
-
-                <GroupBox Header="Placeholder" Padding="5" Margin="5">
-                    <s:PlaceholderTextBox />
-                </GroupBox>
-
-                <GroupBox Header="PasswordBoxMarkText" Padding="5" Margin="5">
-                    <StackPanel>
-                        <PasswordBox Margin="0 5"
-                                     Style="{DynamicResource PasswordBoxMarkTextStyle}"
-                                     Tag="输入你的密码"
-                                     s:PasswordHelper.Attach="True"
-                                     s:PasswordHelper.Password="{Binding PasswordMarkText, Mode=TwoWay}" />
-                        <TextBlock Margin="0 5">
-                            <Run Text="密码: " />
-                            <Run Text="{Binding PasswordMarkText}" FontWeight="Bold" Foreground="BlueViolet" />
-                        </TextBlock>
-                    </StackPanel>
-                </GroupBox>
-
-                <GroupBox Header="TextBoxRounded" Padding="5" Margin="5">
-                    <TextBox Margin="0 5" Style="{DynamicResource TextBoxRoundedStyle}" />
-                </GroupBox>
-
-                <GroupBox Header="XamlIcon" Padding="5" Margin="5">
+            <TabItem Header="ScreenshotRunner">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
-                        <s:XamlIcon Icon="Home" IconSize="50" Foreground="DarkSeaGreen" Margin="10" />
-                        <s:XamlIcon Icon="Home" IconSize="75" Foreground="DimGray" Margin="10" />
-                        <s:XamlIcon Icon="Home" IconSize="100" Foreground="IndianRed" Margin="10" />
+                        <Button Content="截图" Height="30" Width="80" Command="{Binding ScreenshotCommand}" />
+                        <Button Content="截图全屏" Height="30" Width="80" Command="{Binding ScreenshotAllCommand}" />
+                        <Button Content="保存" Height="30" Width="80" Command="{Binding SaveCommand}" />
                     </StackPanel>
-                </GroupBox>
 
-                <GroupBox Header="NumericUpDown" Padding="5" Margin="5">
-                    <s:NumericUpDown Minimum="0"
-                                     Maximum="50"
-                                     Step="5"
-                                     FontSize="14"
-                                     IconSize="14"
-                                     Tag="请输入数字..." />
-                </GroupBox>
-
-            </StackPanel>
-        </ScrollViewer>
+                    <Image Grid.Row="1" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Source="{Binding BitmapSource}"
+                           MouseWheel="Control_MouseWheel"
+                           RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <ScaleTransform x:Name="ImageScaleTransform" />
+                        </Image.RenderTransform>
+                    </Image>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

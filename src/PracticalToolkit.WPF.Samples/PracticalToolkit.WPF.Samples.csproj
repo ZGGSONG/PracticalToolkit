@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PracticalToolkit.Screenshot\PracticalToolkit.Screenshot.csproj" />
     <ProjectReference Include="..\PracticalToolkit.WPF\PracticalToolkit.WPF.csproj" />
   </ItemGroup>
 
