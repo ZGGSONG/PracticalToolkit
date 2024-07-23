@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticalToolkit.WPF.Sample
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticalToolkit.WPF", "src\PracticalToolkit.WPF\PracticalToolkit.WPF.csproj", "{544DF0AC-93DF-485E-B6A8-823CFBA32FB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticalToolkit.Screenshot", "src\PracticalToolkit.Screenshot\PracticalToolkit.Screenshot.csproj", "{472002BC-0B9C-4760-869F-3E6566A2C07E}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticalToolkit", "src\PracticalToolkit\PracticalToolkit.csproj", "{8C39C5CD-A8D1-4528-9FCE-0190BD515466}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6E5BF389-3D3F-4D74-9DD0-3B199CB529C5}"
@@ -30,8 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticalToolkit.UnitTests", "tests\PracticalToolkit.UnitTests\PracticalToolkit.UnitTests.csproj", "{F2548AE2-D736-4C21-942F-55C4F592EFF2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticalToolkit.Screenshot", "PracticalToolkit.Screenshot\PracticalToolkit.Screenshot.csproj", "{472002BC-0B9C-4760-869F-3E6566A2C07E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

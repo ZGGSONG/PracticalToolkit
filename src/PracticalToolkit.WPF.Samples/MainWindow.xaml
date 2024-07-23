@@ -149,6 +149,7 @@
                         <Button Content="截图" Height="30" Width="80" Command="{Binding ScreenshotCommand}" />
                         <Button Content="截图全屏" Height="30" Width="80" Command="{Binding ScreenshotAllCommand}" />
                         <Button Content="保存" Height="30" Width="80" Command="{Binding SaveCommand}" />
+                        <Button Content="清空" Height="30" Width="80" Command="{Binding ClearCommand}" />
                     </StackPanel>
 
                     <Image Grid.Row="1" HorizontalAlignment="Stretch"

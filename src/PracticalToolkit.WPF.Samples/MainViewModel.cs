@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -56,8 +57,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void Save()
     {
-        using var bitmap = BitmapSource.ToBitmap();
-        if (bitmap == null) return;
+        if (BitmapSource == null) return;
         var saveFileDialog = new SaveFileDialog
         {
             Filter = "Png|*.png|All|*.*",
@@ -66,9 +66,25 @@ public partial class MainViewModel : ObservableObject
         if (saveFileDialog.ShowDialog() != true) return;
         // 确保文件路径有效且可写
         var name = saveFileDialog.FileName;
-        var newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
-        using var graphics = Graphics.FromImage(newBitmap);
-        graphics.DrawImage(bitmap, 0, 0);
-        newBitmap.Save(name);
+
+
+        BitmapEncoder encoder;
+        if (name.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+            encoder = new PngBitmapEncoder();
+        else
+            encoder = new JpegBitmapEncoder();
+
+        // 将 BitmapSource 添加到 BitmapEncoder
+        encoder.Frames.Add(BitmapFrame.Create(BitmapSource));
+
+        // 使用 FileStream 保存到文件
+        using FileStream fs = new(name, FileMode.Create);
+        encoder.Save(fs);
+    }
+
+    [RelayCommand]
+    private void Clear()
+    {
+        BitmapSource = null;
     }
 }

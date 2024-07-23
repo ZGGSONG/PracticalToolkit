@@ -13,4 +13,8 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>Screenshot;WPF;WinForm</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup Label="Nuget">
+	<None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

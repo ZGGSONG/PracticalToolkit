@@ -1,5 +1,10 @@
 name: .NET
-on: [ push ]
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - "*" # Push events to matching *, i.e. 1.0, 20.15.10
 
 jobs:
   build:
@@ -15,7 +20,7 @@ jobs:
     
     steps:
     - name: Getting code
-      uses: actions/checkout@v1
+      uses: actions/checkout@v4
           
     - name: Setup .NET
       uses: actions/setup-dotnet@v1

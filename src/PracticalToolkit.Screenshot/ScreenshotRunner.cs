@@ -113,9 +113,9 @@ public class ScreenshotRunner : IDisposable
             _screenshotHost.BringToFront();
             _screenshotHost.Select();
             _screenshotHost.Focus();
-            Debug.WriteLine("Activated");
+            //Debug.WriteLine("Activated");
         };
-        _screenshotHost.Deactivate += (_, _) => Debug.WriteLine("Deactivated");
+        //_screenshotHost.Deactivate += (_, _) => Debug.WriteLine("Deactivated");
 
         if (_screenshotHost.ShowDialog() != DialogResult.OK)
             return null;
