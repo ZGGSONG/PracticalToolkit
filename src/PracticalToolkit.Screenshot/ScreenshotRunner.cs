@@ -224,6 +224,7 @@ public class ScreenshotRunner : IDisposable
 
     private void ScreenshotHost_MouseUp(object? sender, MouseEventArgs e)
     {
+        if (_isDrawing) _isDrawing = false;
         if (_screenshotHost == null) return;
         _screenshotHost.DialogResult = DialogResult.OK;
     }
