@@ -126,6 +126,7 @@ public class ScreenshotRunner : IDisposable
         try
         {
             _backHostForm.Opacity = 0;
+            _backHostForm.Close();
             _screenshotHost.Opacity = 0;
             _selectFrame.BorderStyle = BorderStyle.None;
             Bitmap bmp = new(_selectFrame.Width, _selectFrame.Height);
