@@ -61,15 +61,15 @@ public partial class MainViewModel : ObservableObject
         if (BitmapSource == null) return;
         var saveFileDialog = new SaveFileDialog
         {
-            Filter = "Png|*.png|All|*.*",
+            Filter = "Jpg|*.jpg|Png|*.png|All|*.*",
             FileName = $"{DateTime.Now:yyyyMMdd_HHmmss}"
         };
         if (saveFileDialog.ShowDialog() != true) return;
         var name = saveFileDialog.FileName;
 
-        BitmapEncoder encoder = name.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
-            ? new PngBitmapEncoder()
-            : new JpegBitmapEncoder();
+        BitmapEncoder encoder = name.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+            ? new JpegBitmapEncoder()
+            : new PngBitmapEncoder();
 
         // 将 BitmapSource 添加到 BitmapEncoder
         encoder.Frames.Add(BitmapFrame.Create(BitmapSource));

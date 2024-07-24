@@ -4,55 +4,23 @@ namespace PracticalToolkit.Screenshot;
 
 /// <summary>
 ///     提供屏幕截图功能
-///     <see href="https://github.com/tjden88/ScreenshotCreator" />
+///     * 修改自 <see href="https://github.com/tjden88/ScreenshotCreator" />
+///     * 根据自身需求做了修改
 /// </summary>
 public class ScreenshotRunner : IDisposable
 {
-    /// <summary>
-    ///     释放由 ScreenshotRunner 使用的所有资源。
-    /// </summary>
-    public void Dispose()
-    {
-        Dispose(true);
-        // 告诉GC在显示调用Dispose时不调用Finalize方法(析构方法)
-        GC.SuppressFinalize(this);
-    }
+    #region <字段>
 
-    ~ScreenshotRunner()
-    {
-        Dispose(false);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposed) return;
-
-        if (disposing)
-        {
-            // 释放托管资源
-            _frame?.Dispose();
-            _frame = null;
-            _screenshotHost?.Dispose();
-            _screenshotHost = null;
-        }
-
-        // 释放非托管资源
-        // 如果有非托管资源，请在这里释放
-
-        _disposed = true;
-    }
-
-    #region 字段
-
-    private PictureBox? _frame;
+    private BackForm? _backHostForm;
     private Form? _screenshotHost;
-    private Point _p1, _p2;
+    private PictureBox? _selectFrame;
+    private Point _startPoint, _endPoint;
     private bool _isDrawing;
     private bool _disposed;
 
     #endregion
 
-    #region 属性
+    #region <属性>
 
     /// <summary>
     ///     获取或设置截图窗口的不透明度。
@@ -71,7 +39,7 @@ public class ScreenshotRunner : IDisposable
 
     #endregion
 
-    #region 截图方法
+    #region <截图>
 
     /// <summary>
     ///     获取所有屏幕的边界。
@@ -97,7 +65,25 @@ public class ScreenshotRunner : IDisposable
     /// <returns>用户定义区域的屏幕截图 <see cref="Bitmap" /></returns>
     public Bitmap? Screenshot()
     {
-        _frame = new PictureBox
+        var displayRect = GetBounds();
+
+        #region 背景使用当前桌面截图
+
+        _backHostForm = new BackForm(displayRect.Location, displayRect.Size);
+        // 绘制背景
+        using var backgroundBitmap = new Bitmap(displayRect.Width, displayRect.Height);
+        using var graphics = Graphics.FromImage(backgroundBitmap);
+        graphics.SmoothingMode = SmoothingMode.AntiAlias;
+        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        graphics.CopyFromScreen(displayRect.X, displayRect.Y, 0, 0, new Size(displayRect.Width, displayRect.Height));
+        _backHostForm.BackgroundImage = backgroundBitmap;
+        _backHostForm.Show();
+
+        #endregion
+
+        #region 原代码
+
+        _selectFrame = new PictureBox
         {
             BackColor = TransparencyKeyColor,
             BorderStyle = BorderStyle.FixedSingle,
@@ -105,7 +91,6 @@ public class ScreenshotRunner : IDisposable
             Visible = false
         };
 
-        var displayRect = GetBounds();
         _screenshotHost = new Form
         {
             ShowInTaskbar = false,
@@ -116,7 +101,8 @@ public class ScreenshotRunner : IDisposable
             KeyPreview = true,
             Cursor = Cursors.Cross
         };
-        _screenshotHost.Controls.Add(_frame);
+
+        _screenshotHost.Controls.Add(_selectFrame);
         _screenshotHost.MouseDown += ScreenshotHost_MouseDown;
         _screenshotHost.MouseMove += ScreenshotHost_MouseMove;
         _screenshotHost.MouseUp += ScreenshotHost_MouseUp;
@@ -139,19 +125,23 @@ public class ScreenshotRunner : IDisposable
             return null;
         try
         {
+            _backHostForm.Opacity = 0;
             _screenshotHost.Opacity = 0;
-            _frame.BorderStyle = BorderStyle.None;
-            Bitmap bmp = new(_frame.Width, _frame.Height);
+            _selectFrame.BorderStyle = BorderStyle.None;
+            Bitmap bmp = new(_selectFrame.Width, _selectFrame.Height);
             using var g = Graphics.FromImage(bmp);
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.CopyFromScreen(_screenshotHost.Left + _frame.Left, _screenshotHost.Top + _frame.Top, 0, 0, _frame.Size);
+            g.CopyFromScreen(_screenshotHost.Left + _selectFrame.Left, _screenshotHost.Top + _selectFrame.Top, 0, 0,
+                _selectFrame.Size);
             return bmp;
         }
         catch
         {
             return null;
         }
+
+        #endregion
     }
 
     /// <summary>
@@ -196,7 +186,7 @@ public class ScreenshotRunner : IDisposable
 
     #endregion
 
-    #region 鼠标
+    #region <鼠标>
 
     private void ScreenshotHost_KeyUp(object? sender, KeyEventArgs e)
     {
@@ -206,28 +196,88 @@ public class ScreenshotRunner : IDisposable
 
     private void ScreenshotHost_MouseDown(object? sender, MouseEventArgs e)
     {
-        if (_frame == null) return;
-        _frame.Location = e.Location;
-        _p1 = e.Location;
-        _p2 = e.Location;
-        _frame.Visible = true;
+        if (_selectFrame == null) return;
+        _selectFrame.Location = e.Location;
+        _startPoint = e.Location;
+        _selectFrame.Visible = true;
         _isDrawing = true;
     }
 
     private void ScreenshotHost_MouseMove(object? sender, MouseEventArgs e)
     {
-        if (!_isDrawing || _frame == null) return;
-        _p2 = e.Location;
-        _frame.Location = new Point(Math.Min(_p1.X, _p2.X), Math.Min(_p1.Y, _p2.Y));
-        _frame.Size = new Size(Math.Max(_p1.X, _p2.X) - _frame.Location.X, Math.Max(_p1.Y, _p2.Y) - _frame.Location.Y);
+        if (!_isDrawing || _selectFrame == null) return;
+        _endPoint = e.Location;
+        _selectFrame.Location = new Point(Math.Min(_startPoint.X, _endPoint.X), Math.Min(_startPoint.Y, _endPoint.Y));
+        _selectFrame.Size = new Size(Math.Max(_startPoint.X, _endPoint.X) - _selectFrame.Location.X,
+            Math.Max(_startPoint.Y, _endPoint.Y) - _selectFrame.Location.Y);
     }
 
     private void ScreenshotHost_MouseUp(object? sender, MouseEventArgs e)
     {
-        if (_isDrawing) _isDrawing = false;
+        if (!_isDrawing) return;
+        _isDrawing = false;
         if (_screenshotHost == null) return;
         _screenshotHost.DialogResult = DialogResult.OK;
     }
 
     #endregion
+
+    #region <释放>
+
+    public void Dispose()
+    {
+        Dispose(true);
+        // 告诉GC在显示调用Dispose时不调用Finalize方法(析构方法)
+        GC.SuppressFinalize(this);
+    }
+
+    ~ScreenshotRunner()
+    {
+        Dispose(false);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed) return;
+
+        if (disposing)
+        {
+            // 释放托管资源
+            _selectFrame?.Dispose();
+            _screenshotHost?.Dispose();
+            _backHostForm?.Dispose();
+            _selectFrame = null;
+            _screenshotHost = null;
+            _backHostForm = null;
+        }
+
+        // 释放非托管资源
+
+        _disposed = true;
+    }
+
+    #endregion
+}
+
+/// <summary>
+///     自定义Form作为背景控件
+/// </summary>
+public sealed class BackForm : Form
+{
+    public BackForm(Point location, Size size)
+    {
+        // 启用双缓冲以减少或消除闪烁
+        DoubleBuffered = true;
+
+        ShowInTaskbar = false;
+        TopMost = true;
+        FormBorderStyle = FormBorderStyle.None;
+
+        Load += (_, _) =>
+        {
+            Location = location;
+            Size = size;
+            BringToFront();
+        };
+    }
 }
