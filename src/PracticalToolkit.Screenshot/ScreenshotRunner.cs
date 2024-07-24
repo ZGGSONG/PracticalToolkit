@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 
 namespace PracticalToolkit.Screenshot;
 
@@ -14,21 +13,42 @@ public class ScreenshotRunner : IDisposable
     /// </summary>
     public void Dispose()
     {
-        _frame = null;
-        _screenshotHost?.Dispose();
-        _screenshotHost = null;
+        Dispose(true);
+        // 告诉GC在显示调用Dispose时不调用Finalize方法(析构方法)
         GC.SuppressFinalize(this);
+    }
+
+    ~ScreenshotRunner()
+    {
+        Dispose(false);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed) return;
+
+        if (disposing)
+        {
+            // 释放托管资源
+            _frame?.Dispose();
+            _frame = null;
+            _screenshotHost?.Dispose();
+            _screenshotHost = null;
+        }
+
+        // 释放非托管资源
+        // 如果有非托管资源，请在这里释放
+
+        _disposed = true;
     }
 
     #region 字段
 
     private PictureBox? _frame;
-
     private Form? _screenshotHost;
-
     private Point _p1, _p2;
-
     private bool _isDrawing;
+    private bool _disposed;
 
     #endregion
 
@@ -113,9 +133,7 @@ public class ScreenshotRunner : IDisposable
             _screenshotHost.BringToFront();
             _screenshotHost.Select();
             _screenshotHost.Focus();
-            //Debug.WriteLine("Activated");
         };
-        //_screenshotHost.Deactivate += (_, _) => Debug.WriteLine("Deactivated");
 
         if (_screenshotHost.ShowDialog() != DialogResult.OK)
             return null;
@@ -124,13 +142,13 @@ public class ScreenshotRunner : IDisposable
             _screenshotHost.Opacity = 0;
             _frame.BorderStyle = BorderStyle.None;
             Bitmap bmp = new(_frame.Width, _frame.Height);
-            var g = Graphics.FromImage(bmp);
+            using var g = Graphics.FromImage(bmp);
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.CopyFromScreen(_screenshotHost.Left + _frame.Left, _screenshotHost.Top + _frame.Top, 0, 0, _frame.Size);
             return bmp;
         }
-        catch (Exception)
+        catch
         {
             return null;
         }
@@ -146,13 +164,13 @@ public class ScreenshotRunner : IDisposable
         try
         {
             Bitmap bmp = new(displayRect.Width, displayRect.Height);
-            var g = Graphics.FromImage(bmp);
+            using var g = Graphics.FromImage(bmp);
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.CopyFromScreen(displayRect.Left, displayRect.Top, 0, 0, displayRect.Size);
             return bmp;
         }
-        catch (Exception)
+        catch
         {
             return null;
         }

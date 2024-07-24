@@ -63,9 +63,10 @@ public static class Extensions
     /// 从内存中删除一个逻辑笔、逻辑刷、字体、位图、区域或者调色板，释放所有与这些对象相关的系统资源。在对象被删除之后，指定的句柄不再是合法的。
     /// </summary>
     /// <param name="hObject">指向要删除的 GDI 对象的句柄。</param>
-    /// <returns>如果函数成功，返回值是非零的；如果函数失败，返回值是零。</returns>
-    [DllImport("gdi32")]
-    public static extern int DeleteObject(IntPtr hObject);
+    /// <returns></returns>
+    [DllImport("gdi32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DeleteObject(IntPtr hObject);
 
     #endregion
 }
