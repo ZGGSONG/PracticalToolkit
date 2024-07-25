@@ -38,7 +38,6 @@ public string Password
 }
 ```
 
-
 - Model
 
 ```csharp
@@ -60,7 +59,8 @@ public enum Fruit
 
 ## BindingProxy
 
-> This is primarily used on controls that cannot inherit DataContext, such as Popup, ContextMenu, and Tooltip, to bind to a DataContext.
+> This is primarily used on controls that cannot inherit DataContext, such as Popup, ContextMenu, and Tooltip, to bind
+> to a DataContext.
 
 ```xaml
 <Window.Resources>
@@ -128,7 +128,6 @@ public enum Fruit
 
 > Support password box to display binding watermark information by Tag
 > Required to work with `PasswordHelper`
-
 
 ```xaml
 <PasswordBox Margin="0 5"

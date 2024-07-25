@@ -1,4 +1,6 @@
-﻿namespace PracticalToolkit.WPF.Samples;
+﻿using System.Windows.Input;
+
+namespace PracticalToolkit.WPF.Samples;
 
 public partial class MainWindow
 {
@@ -7,7 +9,7 @@ public partial class MainWindow
         InitializeComponent();
     }
 
-    private void Control_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+    private void Control_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (ImageScaleTransform == null) return;
         var zoom = e.Delta > 0 ? 0.1 : -0.1;

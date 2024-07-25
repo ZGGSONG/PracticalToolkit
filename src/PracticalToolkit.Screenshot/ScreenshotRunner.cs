@@ -16,7 +16,9 @@ public class ScreenshotRunner : IDisposable
     private PictureBox? _selectFrame;
     private Point _startPoint, _endPoint;
     private bool _isDrawing;
+
     private bool _disposed;
+
     // 在ScreenshotRunner类中添加字段
     private PictureBox? _magnifier;
     private Bitmap? _magnifierBmp;
@@ -88,7 +90,7 @@ public class ScreenshotRunner : IDisposable
 
         _magnifier = new PictureBox
         {
-            Size = new Size(120, 120), // 放大镜的大小
+            Size = new Size(120, 120) // 放大镜的大小
             //TODO: 初始位置
         };
 
@@ -97,7 +99,7 @@ public class ScreenshotRunner : IDisposable
             BackColor = TransparencyKeyColor,
             BorderStyle = BorderStyle.FixedSingle,
             Size = new Size(0, 0),
-            Visible = false,
+            Visible = false
         };
 
         _screenshotHost = new Form
@@ -242,7 +244,9 @@ public class ScreenshotRunner : IDisposable
         {
             // 使用高质量的图像插值模式
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            var sourceRect = new Rectangle(screenPoint.X - magnifierSize / (2 * zoomFactor), screenPoint.Y - magnifierSize / (2 * zoomFactor), magnifierSize / zoomFactor, magnifierSize / zoomFactor);
+            var sourceRect = new Rectangle(screenPoint.X - magnifierSize / (2 * zoomFactor),
+                screenPoint.Y - magnifierSize / (2 * zoomFactor), magnifierSize / zoomFactor,
+                magnifierSize / zoomFactor);
             g.DrawImage(img, new Rectangle(0, 0, magnifierSize, magnifierSize), sourceRect, GraphicsUnit.Pixel);
 
             // 绘制蓝色十字标记
@@ -254,6 +258,7 @@ public class ScreenshotRunner : IDisposable
             var borderPen = new Pen(Color.Blue, 2);
             g.DrawRectangle(borderPen, 0, 0, magnifierSize - 1, magnifierSize - 1); // 绘制边框
         }
+
         _magnifier.Image = _magnifierBmp;
     }
 

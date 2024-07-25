@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace PracticalToolkit.Disposable;
 
@@ -53,7 +52,7 @@ public class TimerDisposable : IDisposable
     }
 
     /// <summary>
-    ///     Finalizes an instance of the <see cref="TimerDisposable"/> class.
+    ///     Finalizes an instance of the <see cref="TimerDisposable" /> class.
     /// </summary>
     ~TimerDisposable()
     {

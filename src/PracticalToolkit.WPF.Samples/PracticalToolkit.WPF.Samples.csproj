@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PracticalToolkit.Screenshot\PracticalToolkit.Screenshot.csproj" />
-    <ProjectReference Include="..\PracticalToolkit.WPF\PracticalToolkit.WPF.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\PracticalToolkit.Screenshot\PracticalToolkit.Screenshot.csproj"/>
+        <ProjectReference Include="..\PracticalToolkit.WPF\PracticalToolkit.WPF.csproj"/>
+    </ItemGroup>
 
 </Project>

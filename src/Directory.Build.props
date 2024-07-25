@@ -1,18 +1,18 @@
 <Project>
-  <Import Project="..\Directory.Build.props" />
+    <Import Project="..\Directory.Build.props"/>
 
-  <PropertyGroup Label="Nuget">
-	<!--<GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
-	<Authors>zggsong</Authors>
-	<PackageIcon>nuget.png</PackageIcon>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageOutputPath>$(NugetTargetDirectory)</PackageOutputPath>
-	<PackageReleaseNotes>https://github.com/ZGGSONG/PracticalToolkit/Releases</PackageReleaseNotes>
-	<PackageProjectUrl>https://github.com/ZGGSONG/PracticalToolkit/</PackageProjectUrl>
-  </PropertyGroup>
+    <PropertyGroup Label="Nuget">
+        <!--<GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+        <Authors>zggsong</Authors>
+        <PackageIcon>nuget.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageOutputPath>$(NugetTargetDirectory)</PackageOutputPath>
+        <PackageReleaseNotes>https://github.com/ZGGSONG/PracticalToolkit/Releases</PackageReleaseNotes>
+        <PackageProjectUrl>https://github.com/ZGGSONG/PracticalToolkit/</PackageProjectUrl>
+    </PropertyGroup>
 
-  <ItemGroup Label="Nuget">
-	<None Include="$(SolutionDir)nuget.png" Pack="true" PackagePath="\"/>
-  </ItemGroup>
+    <ItemGroup Label="Nuget">
+        <None Include="$(SolutionDir)nuget.png" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 </Project>

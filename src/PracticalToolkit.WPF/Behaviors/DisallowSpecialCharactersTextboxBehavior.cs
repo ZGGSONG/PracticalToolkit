@@ -7,7 +7,7 @@ namespace PracticalToolkit.WPF.Behaviors;
 
 /// <summary>
 ///     A quick and convenient solution to prevent special characters
-///     <br/>
+///     <br />
 ///     such as
 ///     <see langword="\" /> <see langword="/" /> <see langword=":" /> <see langword="?" /> etc.
 ///     from being entered in text boxes.

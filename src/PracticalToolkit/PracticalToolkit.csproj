@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    </PropertyGroup>
 
-  <PropertyGroup Label="Nuget">
-    <Version>1.0.2</Version>
-    <Description>Practical Toolkit</Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>BusyDisposable;TimerDisposable</PackageTags>
-  </PropertyGroup>
+    <PropertyGroup Label="Nuget">
+        <Version>1.0.2</Version>
+        <Description>Practical Toolkit</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>BusyDisposable;TimerDisposable</PackageTags>
+    </PropertyGroup>
 
-  <ItemGroup Label="Nuget">
-	<None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
+    <ItemGroup Label="Nuget">
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 </Project>

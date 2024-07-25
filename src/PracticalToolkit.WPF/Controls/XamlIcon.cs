@@ -75,7 +75,8 @@ public class XamlIcon : Label
         }
         else
         {
-            var info = Application.GetResourceStream(new Uri(key, UriKind.Relative)) ?? throw new NullReferenceException(nameof(Icon));
+            var info = Application.GetResourceStream(new Uri(key, UriKind.Relative)) ??
+                       throw new NullReferenceException(nameof(Icon));
             using var stream = info.Stream;
             var page = (Viewbox)XamlReader.Load(info.Stream);
             page.Width = IconSize;

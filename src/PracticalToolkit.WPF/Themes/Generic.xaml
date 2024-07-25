@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:control="clr-namespace:PracticalToolkit.WPF.Controls"
                     xmlns:utils="clr-namespace:PracticalToolkit.WPF.Utils">
-    
+
     <!--// 带增减按钮的数字框 //-->
     <Style TargetType="{x:Type control:NumericUpDown}">
         <Setter Property="Cursor" Value="IBeam" />
@@ -56,7 +56,7 @@
                                                       Grid.Row="2"
                                                       Icon="AngleDown"
                                                       IconSize="{TemplateBinding IconSize}"
-                                                      Cursor="Hand"/>
+                                                      Cursor="Hand" />
                                 </Grid>
                             </Border>
                         </Grid>

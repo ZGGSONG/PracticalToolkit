@@ -1,6 +1,7 @@
 ﻿## Usage
 
-> Even after using `Using`, there will still be a certain amount of time waiting for `GC` to release the memory usage, `GC` can be manually called according to the actual situation
+> Even after using `Using`, there will still be a certain amount of time waiting for `GC` to release the memory
+> usage, `GC` can be manually called according to the actual situation
 
 1. Capture Area
 

@@ -5,5 +5,5 @@ public enum Icons
     None,
     Home,
     AngleUp,
-    AngleDown,
+    AngleDown
 }

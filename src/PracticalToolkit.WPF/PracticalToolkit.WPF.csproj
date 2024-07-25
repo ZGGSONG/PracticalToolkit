@@ -1,39 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net8.0-windows;net7.0-windows;net6.0-windows;net481;net472;net462</TargetFrameworks>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net8.0-windows;net7.0-windows;net6.0-windows;net481;net472;net462</TargetFrameworks>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
 
-  <PropertyGroup Label="Nuget">
-	<Version>1.0.4</Version>
-	<Description>Practical Toolkit For WPF</Description>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageTags>
-		Controls;
-		Converters;
-		Extensions;
-		PasswordHelper;
-		BindingProxy;
-		PasswordBoxMarkTextStyle;
-		NumericUpDown
-	</PackageTags>
-  </PropertyGroup>
+    <PropertyGroup Label="Nuget">
+        <Version>1.0.4</Version>
+        <Description>Practical Toolkit For WPF</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>
+            Controls;
+            Converters;
+            Extensions;
+            PasswordHelper;
+            BindingProxy;
+            PasswordBoxMarkTextStyle;
+            NumericUpDown
+        </PackageTags>
+    </PropertyGroup>
 
-  <ItemGroup Label="Nuget">
-	<None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
+    <ItemGroup Label="Nuget">
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Resources\Icons\AngleDown.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Icons\AngleUp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Icons\Home.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-  </ItemGroup>
+    <ItemGroup>
+        <Resource Include="Resources\Icons\AngleDown.xaml">
+            <SubType>Designer</SubType>
+            <Generator>MSBuild:Compile</Generator>
+        </Resource>
+        <Resource Include="Resources\Icons\AngleUp.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Resource>
+        <Resource Include="Resources\Icons\Home.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Resource>
+    </ItemGroup>
 </Project>
