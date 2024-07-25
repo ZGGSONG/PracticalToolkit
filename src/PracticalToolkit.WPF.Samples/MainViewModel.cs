@@ -12,6 +12,7 @@ namespace PracticalToolkit.WPF.Samples;
 public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty] private BitmapSource? _bitmapSource;
+    [ObservableProperty] private BitmapSource? _bitmapSource2;
 
     [ObservableProperty] private string _content = DateTime.Now.ToString("HH:mm:ss.fff");
 
@@ -88,8 +89,23 @@ public partial class MainViewModel : ObservableObject
             BitmapSource = null;
         }
 
+        if (BitmapSource2 != null)
+        {
+            BitmapSource2.Freeze();
+            BitmapSource2 = null;
+        }
+
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
+    }
+
+    [RelayCommand]
+    private void Screenshoter()
+    {
+        Clear();
+        using var screenshoter = new Screenshoter();
+        using var bitmap = screenshoter.Screenshot();
+        BitmapSource2 = bitmap.ToBitmapSource();
     }
 }

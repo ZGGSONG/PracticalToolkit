@@ -163,6 +163,25 @@
                     </Image>
                 </Grid>
             </TabItem>
+            
+
+            <TabItem Header="Screenshoter">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="截图" Height="30" Width="80" Command="{Binding ScreenshoterCommand}" />
+                    </StackPanel>
+                    
+                    <Image Grid.Row="1" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Source="{Binding BitmapSource2}"
+                           MouseWheel="Control_MouseWheel"
+                           RenderTransformOrigin="0.5,0.5" />
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

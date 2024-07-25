@@ -10,7 +10,7 @@ Description
 ### Nuget
 
 [![NuGet](https://img.shields.io/nuget/dt/PracticalToolkit.svg?style=flat-square&label=PracticalToolkit)](https://www.nuget.org/packages/PracticalToolkit/)
-[![NuGet](https://img.shields.io/nuget/dt/PracticalToolkit.svg?style=flat-square&label=PracticalToolkit)](https://www.nuget.org/packages/PracticalToolkit.Screenshot/)
+[![NuGet](https://img.shields.io/nuget/dt/PracticalToolkit.svg?style=flat-square&label=PracticalToolkit.Screenshot)](https://www.nuget.org/packages/PracticalToolkit.Screenshot/)
 [![NuGet](https://img.shields.io/nuget/dt/PracticalToolkit.WPF.svg?style=flat-square&label=PracticalToolkit.WPF)](https://www.nuget.org/packages/PracticalToolkit.WPF/)
 
 ```
@@ -22,7 +22,7 @@ Install-Package PracticalToolkit.WPF
 ### Usage
 
 - [PracticalToolkit](./src/PracticalToolkit/README.md)
-- [PracticalToolkit](./src/PracticalToolkit.Screenshot/README.md)
+- [PracticalToolkit.Screenshot](./src/PracticalToolkit.Screenshot/README.md)
 - [PracticalToolkit.WPF](./src/PracticalToolkit.WPF/README.md)
 
 ### Contacts

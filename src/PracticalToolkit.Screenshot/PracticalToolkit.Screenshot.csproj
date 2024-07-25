@@ -17,4 +17,8 @@
   <ItemGroup Label="Nuget">
 	<None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WpfScreenHelper" Version="2.1.0" />
+  </ItemGroup>
 </Project>
