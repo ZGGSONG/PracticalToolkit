@@ -19,10 +19,6 @@ public class ScreenshotRunner : IDisposable
 
     private bool _disposed;
 
-    // 在ScreenshotRunner类中添加字段
-    private PictureBox? _magnifier;
-    private Bitmap? _magnifierBmp;
-
     #endregion
 
     #region <属性>
@@ -88,16 +84,9 @@ public class ScreenshotRunner : IDisposable
 
         #region 原代码
 
-        _magnifier = new PictureBox
-        {
-            Size = new Size(120, 120) // 放大镜的大小
-            //TODO: 初始位置
-        };
-
-        _selectFrame = new PictureBox
+        _selectFrame = new CustomPictureBox
         {
             BackColor = TransparencyKeyColor,
-            BorderStyle = BorderStyle.FixedSingle,
             Size = new Size(0, 0),
             Visible = false
         };
@@ -113,7 +102,6 @@ public class ScreenshotRunner : IDisposable
             Cursor = Cursors.Cross
         };
 
-        _screenshotHost.Controls.Add(_magnifier);
         _screenshotHost.Controls.Add(_selectFrame);
         _screenshotHost.MouseDown += ScreenshotHost_MouseDown;
         _screenshotHost.MouseMove += ScreenshotHost_MouseMove;
@@ -218,48 +206,12 @@ public class ScreenshotRunner : IDisposable
 
     private void ScreenshotHost_MouseMove(object? sender, MouseEventArgs e)
     {
-        // 更新放大镜位置和图像
-        if (_magnifier != null)
-        {
-            _magnifier.Location = new Point(e.X + 20, e.Y + 20); // 放大镜位置稍微偏离鼠标位置
-            UpdateMagnifierImage(e.Location);
-        }
-
         if (!_isDrawing || _selectFrame == null) return;
         _endPoint = e.Location;
         _selectFrame.Location = new Point(Math.Min(_startPoint.X, _endPoint.X), Math.Min(_startPoint.Y, _endPoint.Y));
         _selectFrame.Size = new Size(Math.Max(_startPoint.X, _endPoint.X) - _selectFrame.Location.X,
             Math.Max(_startPoint.Y, _endPoint.Y) - _selectFrame.Location.Y);
-    }
-
-    // 添加一个方法来更新放大镜图像
-    private void UpdateMagnifierImage(Point screenPoint)
-    {
-        if (_magnifier == null || _backHostForm?.BackgroundImage is not { } img) return;
-
-        const int magnifierSize = 120; // 放大镜的大小
-        const int zoomFactor = 3; // 放大倍数
-        _magnifierBmp = new Bitmap(magnifierSize, magnifierSize);
-        using (var g = Graphics.FromImage(_magnifierBmp))
-        {
-            // 使用高质量的图像插值模式
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            var sourceRect = new Rectangle(screenPoint.X - magnifierSize / (2 * zoomFactor),
-                screenPoint.Y - magnifierSize / (2 * zoomFactor), magnifierSize / zoomFactor,
-                magnifierSize / zoomFactor);
-            g.DrawImage(img, new Rectangle(0, 0, magnifierSize, magnifierSize), sourceRect, GraphicsUnit.Pixel);
-
-            // 绘制蓝色十字标记
-            var crossPen = new Pen(Color.Blue, 3);
-            g.DrawLine(crossPen, magnifierSize / 2, 0, magnifierSize / 2, magnifierSize); // 垂直线
-            g.DrawLine(crossPen, 0, magnifierSize / 2, magnifierSize, magnifierSize / 2); // 水平线
-
-            // 绘制蓝色边框
-            var borderPen = new Pen(Color.Blue, 2);
-            g.DrawRectangle(borderPen, 0, 0, magnifierSize - 1, magnifierSize - 1); // 绘制边框
-        }
-
-        _magnifier.Image = _magnifierBmp;
+        _selectFrame.Invalidate(); // 通知窗体重绘边框
     }
 
     private void ScreenshotHost_MouseUp(object? sender, MouseEventArgs e)
@@ -296,8 +248,6 @@ public class ScreenshotRunner : IDisposable
             _selectFrame?.Dispose();
             _screenshotHost?.Dispose();
             _backHostForm?.Dispose();
-            _magnifierBmp?.Dispose();
-            _magnifier?.Dispose();
         }
 
         // 释放非托管资源
@@ -328,5 +278,19 @@ public sealed class BackForm : Form
             Size = size;
             BringToFront();
         };
+    }
+}
+
+public class CustomPictureBox : PictureBox
+{
+    public Color BorderColor { get; set; } = Color.FromArgb(32, 128, 240); // 默认边框颜色为#2080f0
+    public int BorderThickness { get; set; } = 5; // 默认边框厚度为5
+
+    protected override void OnPaint(PaintEventArgs pe)
+    {
+        base.OnPaint(pe);
+        // 使用Graphics对象绘制边框
+        using var pen = new Pen(BorderColor, BorderThickness);
+        pe.Graphics.DrawRectangle(pen, 1, 1, Width - 3, Height - 3);
     }
 }
