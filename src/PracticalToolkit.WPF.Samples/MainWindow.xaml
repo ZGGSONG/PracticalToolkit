@@ -143,16 +143,21 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
+                    <WrapPanel>
                         <Button Content="截图" Height="30" Width="80" Command="{Binding ScreenshotCommand}" />
                         <Button Content="截图全屏" Height="30" Width="80" Command="{Binding ScreenshotAllCommand}" />
                         <Button Content="保存" Height="30" Width="80" Command="{Binding SaveCommand}" />
                         <Button Content="清空" Height="30" Width="80" Command="{Binding ClearCommand}" />
-                    </StackPanel>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="1">
+                        <CheckBox Content="边框" IsChecked="{Binding IsDrawBorder}" />
+                        <CheckBox Content="放大镜" IsChecked="{Binding IsDrawMagnifier}" />
+                    </WrapPanel>
 
-                    <Image Grid.Row="1" HorizontalAlignment="Stretch"
+                    <Image Grid.Row="2" HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            Source="{Binding BitmapSource}"
                            MouseWheel="Control_MouseWheel"

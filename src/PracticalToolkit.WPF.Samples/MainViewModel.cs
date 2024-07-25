@@ -11,6 +11,9 @@ namespace PracticalToolkit.WPF.Samples;
 
 public partial class MainViewModel : ObservableObject
 {
+    [ObservableProperty] private bool _isDrawBorder;
+    [ObservableProperty] private bool _isDrawMagnifier;
+    
     [ObservableProperty] private BitmapSource? _bitmapSource;
 
     [ObservableProperty] private string _content = DateTime.Now.ToString("HH:mm:ss.fff");
@@ -41,7 +44,8 @@ public partial class MainViewModel : ObservableObject
     private void Screenshot()
     {
         Clear();
-        using var runner = new ScreenshotRunner();
+        var options = new RunnerOptions(IsDrawBorder, IsDrawMagnifier);
+        using var runner = new ScreenshotRunner(options);
         using var bitmap = runner.Screenshot();
         BitmapSource = bitmap.ToBitmapSource();
     }
