@@ -10,6 +10,16 @@ using var runner = new ScreenshotRunner();
 using var bitmap = runner.Screenshot();
 ```
 
+> The following is an example of setting the capture area and whether to draw the border and magnifier
+```cs
+var IsDrawBorder = true;	// Draw the border of the capture area
+var IsDrawMagnifier = true;	// Draw the magnifier
+var options = new RunnerOptions(IsDrawBorder, IsDrawMagnifier);
+using var runner = new ScreenshotRunner(options);
+using var bitmap = runner.Screenshot();
+
+```
+
 2. Capture All Desktop
 
 ```cs
