@@ -34,7 +34,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     /// <summary>
     ///     获取或设置截图窗口的不透明度。
     /// </summary>
-    public double Opacity { get; set; } = 0.5;
+    public double Opacity { get; set; } = 0.3;
 
     /// <summary>
     ///     获取或设置截图窗口的背景颜色。
@@ -45,6 +45,11 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     ///     获取或设置截图窗口的透明色。
     /// </summary>
     public Color TransparencyKeyColor { get; set; } = Color.Yellow;
+
+    /// <summary>
+    ///     边框颜色
+    /// </summary>
+    public Color BorderColor { get; set; } = Color.FromArgb(32, 128, 240);
 
     #endregion
 
@@ -76,8 +81,6 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     {
         var displayRect = GetBounds();
 
-        #region 背景使用当前桌面截图
-
         _backHostForm = new BackForm(displayRect.Location, displayRect.Size);
         // 绘制背景
         using var backgroundBitmap = new Bitmap(displayRect.Width, displayRect.Height);
@@ -87,10 +90,6 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         graphics.CopyFromScreen(displayRect.X, displayRect.Y, 0, 0, new Size(displayRect.Width, displayRect.Height));
         _backHostForm.BackgroundImage = backgroundBitmap;
         _backHostForm.Show();
-
-        #endregion
-
-        #region 原代码
 
         _selectFrame = new CustomPictureBox(options.IsDrawBorder)
         {
@@ -115,8 +114,8 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         {
             _magnifier = new PictureBox
             {
-                Size = new Size(120, 120) // 放大镜的大小
-                //TODO: 初始位置
+                Size = new Size(150, 150), // 放大镜的大小
+                Location = Control.MousePosition
             };
             _screenshotHost.Controls.Add(_magnifier);
         }
@@ -159,8 +158,6 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         {
             return null;
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -255,7 +252,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     {
         if (_magnifier == null || _backHostForm?.BackgroundImage is not { } img) return;
 
-        const int magnifierSize = 120; // 放大镜的大小
+        const int magnifierSize = 150; // 放大镜的大小
         const int zoomFactor = 3; // 放大倍数
         _magnifierBmp = new Bitmap(magnifierSize, magnifierSize);
         using (var g = Graphics.FromImage(_magnifierBmp))
@@ -268,13 +265,13 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
             g.DrawImage(img, new Rectangle(0, 0, magnifierSize, magnifierSize), sourceRect, GraphicsUnit.Pixel);
 
             // 绘制蓝色十字标记
-            var crossPen = new Pen(Color.Blue, 3);
+            var crossPen = new Pen(BorderColor, 5);
             g.DrawLine(crossPen, magnifierSize / 2, 0, magnifierSize / 2, magnifierSize); // 垂直线
             g.DrawLine(crossPen, 0, magnifierSize / 2, magnifierSize, magnifierSize / 2); // 水平线
 
             // 绘制蓝色边框
-            var borderPen = new Pen(Color.Blue, 2);
-            g.DrawRectangle(borderPen, 0, 0, magnifierSize - 1, magnifierSize - 1); // 绘制边框
+            var borderPen = new Pen(BorderColor, 4);
+            g.DrawRectangle(borderPen, 1, 1, magnifierSize - 2, magnifierSize - 2); // 绘制边框
         }
 
         _magnifier.Image = _magnifierBmp;
