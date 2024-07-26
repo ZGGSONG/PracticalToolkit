@@ -44,7 +44,7 @@ public partial class MainViewModel : ObservableObject
     private void Screenshot()
     {
         Clear();
-        var options = new RunnerOptions(IsDrawBorder, IsDrawMagnifier);
+        var options = new RunnerOptions(IsDrawMagnifier);
         using var runner = new ScreenshotRunner(options);
         using var bitmap = runner.Screenshot();
         BitmapSource = bitmap.ToBitmapSource();

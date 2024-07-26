@@ -16,8 +16,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     #region <字段>
 
     private BackForm? _backHostForm;
-    private Form? _screenshotHost;
-    private PictureBox? _selectFrame;
+    private CustomLabel? _selectFrame;
     private PictureBox? _magnifier;
     private Point _startPoint, _endPoint;
     private bool _isDrawing;
@@ -27,21 +26,6 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     #endregion
 
     #region <属性>
-
-    /// <summary>
-    ///     获取或设置截图窗口的不透明度。
-    /// </summary>
-    private double Opacity { get; set; } = 0.3;
-
-    /// <summary>
-    ///     获取或设置截图窗口的背景颜色。
-    /// </summary>
-    private Color Background { get; set; } = Color.Black;
-
-    /// <summary>
-    ///     获取或设置截图窗口的透明色。
-    /// </summary>
-    private Color TransparencyKeyColor { get; set; } = Color.Yellow;
 
     /// <summary>
     ///     边框颜色
@@ -86,70 +70,45 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
         graphics.CopyFromScreen(displayRect.X, displayRect.Y, 0, 0, new Size(displayRect.Width, displayRect.Height));
         _backHostForm.BackgroundImage = backgroundBitmap;
-        _backHostForm.Show();
+        // _backHostForm.Show();
 
-        _selectFrame = new CustomPictureBox(options.IsDrawBorder)
+        _selectFrame = new()
         {
-            BackColor = TransparencyKeyColor,
+            BackColor = Color.Transparent,
             Size = new Size(0, 0),
             Visible = false
-        };
-
-        _screenshotHost = new Form
-        {
-            ShowInTaskbar = false,
-            FormBorderStyle = FormBorderStyle.None,
-            Opacity = Opacity,
-            BackColor = Background,
-            TransparencyKey = TransparencyKeyColor,
-            KeyPreview = true,
-            Cursor = Cursors.Cross
         };
 
         // 配置是否启用放大镜
         if (options.IsDrawMagnifier)
         {
-            _magnifier = new PictureBox
+            _magnifier = new()
             {
                 Size = new Size(150, 150), // 放大镜的大小
                 Location = Control.MousePosition
             };
-            _screenshotHost.Controls.Add(_magnifier);
+            _backHostForm.Controls.Add(_magnifier);
         }
 
-        _screenshotHost.Controls.Add(_selectFrame);
-        _screenshotHost.MouseDown += ScreenshotHost_MouseDown;
-        _screenshotHost.MouseMove += ScreenshotHost_MouseMove;
-        _screenshotHost.MouseUp += ScreenshotHost_MouseUp;
-        _screenshotHost.KeyUp += ScreenshotHost_KeyUp;
-        _screenshotHost.Load += (_, _) =>
-        {
-            _screenshotHost.Location = displayRect.Location;
-            _screenshotHost.Size = displayRect.Size;
-            _screenshotHost.TopMost = true;
-        };
+        _backHostForm.Controls.Add(_selectFrame);
+        _backHostForm.MouseDown += ScreenshotHost_MouseDown;
+        _backHostForm.MouseMove += ScreenshotHost_MouseMove;
+        _backHostForm.MouseUp += ScreenshotHost_MouseUp;
+        _backHostForm.KeyUp += ScreenshotHost_KeyUp;
 
-        _screenshotHost.Activated += (_, _) =>
-        {
-            _screenshotHost.BringToFront();
-            _screenshotHost.Select();
-            _screenshotHost.Focus();
-        };
-
-        if (_screenshotHost.ShowDialog() != DialogResult.OK)
+        if (_backHostForm.ShowDialog() != DialogResult.OK)
             return null;
         try
         {
-            _backHostForm.Opacity = 0;
-            _backHostForm.Close();
-            _screenshotHost.Opacity = 0;
-            _selectFrame.BorderStyle = BorderStyle.None;
             Bitmap bmp = new(_selectFrame.Width, _selectFrame.Height);
             using var g = Graphics.FromImage(bmp);
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.CopyFromScreen(_screenshotHost.Left + _selectFrame.Left, _screenshotHost.Top + _selectFrame.Top, 0, 0,
-                _selectFrame.Size);
+            // 将背景图像中的选定区域绘制到新位图上
+            var sourceRect = new Rectangle(_selectFrame.Left, _selectFrame.Top, _selectFrame.Width, _selectFrame.Height);
+            var destRect = new Rectangle(0, 0, _selectFrame.Width, _selectFrame.Height);
+            g.DrawImage(_backHostForm.BackgroundImage, destRect, sourceRect, GraphicsUnit.Pixel);
+            _backHostForm.Opacity = 0;
             return bmp;
         }
         catch
@@ -204,8 +163,8 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
 
     private void ScreenshotHost_KeyUp(object? sender, KeyEventArgs e)
     {
-        if (e.KeyCode == Keys.Escape && _screenshotHost != null)
-            _screenshotHost.DialogResult = DialogResult.Cancel;
+        if (e.KeyCode == Keys.Escape && _backHostForm != null)
+            _backHostForm.DialogResult = DialogResult.Cancel;
     }
 
     private void ScreenshotHost_MouseDown(object? sender, MouseEventArgs e)
@@ -228,9 +187,14 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
 
         if (!_isDrawing || _selectFrame == null) return;
         _endPoint = e.Location;
-        _selectFrame.Location = new Point(Math.Min(_startPoint.X, _endPoint.X), Math.Min(_startPoint.Y, _endPoint.Y));
-        _selectFrame.Size = new Size(Math.Max(_startPoint.X, _endPoint.X) - _selectFrame.Location.X,
-            Math.Max(_startPoint.Y, _endPoint.Y) - _selectFrame.Location.Y);
+        
+        // 仅在位置或大小发生变化时才更新
+        var newLocation = new Point(Math.Min(_startPoint.X, _endPoint.X), Math.Min(_startPoint.Y, _endPoint.Y));
+        var newSize = new Size(Math.Max(_startPoint.X, _endPoint.X) - _selectFrame.Location.X, Math.Max(_startPoint.Y, _endPoint.Y) - _selectFrame.Location.Y);
+
+        if (_selectFrame.Location == newLocation && _selectFrame.Size == newSize) return;
+        _selectFrame.Location = newLocation;
+        _selectFrame.Size = newSize;
         _selectFrame.Invalidate(); // 通知窗体重绘边框
     }
 
@@ -238,8 +202,8 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     {
         if (!_isDrawing) return;
         _isDrawing = false;
-        if (_screenshotHost == null) return;
-        _screenshotHost.DialogResult = DialogResult.OK;
+        if (_backHostForm == null) return;
+        _backHostForm.DialogResult = DialogResult.OK;
     }
 
     /// <summary>
@@ -301,7 +265,6 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         {
             // 释放托管资源
             _selectFrame?.Dispose();
-            _screenshotHost?.Dispose();
             _backHostForm?.Dispose();
             _magnifier?.Dispose();
         }
@@ -328,43 +291,56 @@ public sealed class BackForm : Form
         TopMost = true;
         FormBorderStyle = FormBorderStyle.None;
 
+        KeyPreview = true;
+        Cursor = Cursors.Cross;
+
         Load += (_, _) =>
         {
             Location = location;
             Size = size;
+            TopMost = true;
+        };
+        
+        Activated += (_, _) =>
+        {
             BringToFront();
+            Select();
+            Focus();
         };
     }
 }
 
-public class CustomPictureBox : PictureBox
+public sealed class CustomLabel : Label
 {
-    private readonly Pen? _borderPen;
+    private Pen? _borderPen = new(Color.FromArgb(32, 128, 240), 5);
 
-    public CustomPictureBox(bool isDrawBorder = false)
+    public Pen? BorderPen
     {
-        if (!isDrawBorder) return;
-        _borderPen = new Pen(Color.FromArgb(32, 128, 240), 5);
+        get => _borderPen;
+        set
+        {
+            _borderPen = value;
+            Invalidate();
+        }
     }
 
     protected override void OnPaint(PaintEventArgs pe)
     {
         base.OnPaint(pe);
-        if (_borderPen is null) return;
-        // 使用Graphics对象绘制边框
-        pe.Graphics.DrawRectangle(_borderPen, 1, 1, Width - 3, Height - 3);
+        if (BorderPen is null) return;
+        // Use Graphics object to draw the border
+        pe.Graphics.DrawRectangle(BorderPen, 1, 1, Width - 3, Height - 3);
     }
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing && _borderPen != null)
-            _borderPen.Dispose();
+        if (disposing && BorderPen != null)
+            BorderPen.Dispose();
         base.Dispose(disposing);
     }
 }
 
-public class RunnerOptions(bool isDrawBorder = false, bool isDrawMagnifier = false)
+public class RunnerOptions(bool isDrawMagnifier = false)
 {
-    public bool IsDrawBorder { get; set; } = isDrawBorder;
     public bool IsDrawMagnifier { get; set; } = isDrawMagnifier;
 }
