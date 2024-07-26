@@ -20,7 +20,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     private PictureBox? _selectFrame;
     private Point _startPoint, _endPoint;
     private bool _isDrawing;
-    
+
     // 在ScreenshotRunner类中添加字段
     private PictureBox? _magnifier;
     private Bitmap? _magnifierBmp;
@@ -119,6 +119,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
             };
             _screenshotHost.Controls.Add(_magnifier);
         }
+
         _screenshotHost.Controls.Add(_selectFrame);
         _screenshotHost.MouseDown += ScreenshotHost_MouseDown;
         _screenshotHost.MouseMove += ScreenshotHost_MouseMove;
@@ -227,7 +228,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
             _magnifier.Location = new Point(e.X + 20, e.Y + 20); // 放大镜位置稍微偏离鼠标位置
             UpdateMagnifierImage(e.Location);
         }
-        
+
         if (!_isDrawing || _selectFrame == null) return;
         _endPoint = e.Location;
         _selectFrame.Location = new Point(Math.Min(_startPoint.X, _endPoint.X), Math.Min(_startPoint.Y, _endPoint.Y));
@@ -252,29 +253,31 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     {
         if (_magnifier == null || _backHostForm?.BackgroundImage is not { } img) return;
 
-        const int magnifierSize = 150; // 放大镜的大小
-        const int zoomFactor = 3; // 放大倍数
-        _magnifierBmp = new Bitmap(magnifierSize, magnifierSize);
-        using (var g = Graphics.FromImage(_magnifierBmp))
+        const int magnifierSize = 150; // 放大镜的显示大小
+        const int bitmapSize = 50; // 放大镜位图的实际大小
+        const int zoomFactor = 2; // 放大倍数
+        using var tBitmap = new Bitmap(bitmapSize, bitmapSize);
+        using (var g = Graphics.FromImage(tBitmap))
         {
             // 使用高质量的图像插值模式
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            var sourceRect = new Rectangle(screenPoint.X - magnifierSize / (2 * zoomFactor),
-                screenPoint.Y - magnifierSize / (2 * zoomFactor), magnifierSize / zoomFactor,
-                magnifierSize / zoomFactor);
-            g.DrawImage(img, new Rectangle(0, 0, magnifierSize, magnifierSize), sourceRect, GraphicsUnit.Pixel);
+            var sourceRect = new Rectangle(screenPoint.X - bitmapSize / (2 * zoomFactor),
+                screenPoint.Y - bitmapSize / (2 * zoomFactor), bitmapSize / zoomFactor,
+                bitmapSize / zoomFactor);
+            g.DrawImage(img, new Rectangle(0, 0, bitmapSize, bitmapSize), sourceRect, GraphicsUnit.Pixel);
 
             // 绘制蓝色十字标记
-            var crossPen = new Pen(BorderColor, 5);
-            g.DrawLine(crossPen, magnifierSize / 2, 0, magnifierSize / 2, magnifierSize); // 垂直线
-            g.DrawLine(crossPen, 0, magnifierSize / 2, magnifierSize, magnifierSize / 2); // 水平线
+            var crossPen = new Pen(BorderColor, 3);
+            g.DrawLine(crossPen, bitmapSize / 2, 0, bitmapSize / 2, bitmapSize); // 垂直线
+            g.DrawLine(crossPen, 0, bitmapSize / 2, bitmapSize, bitmapSize / 2); // 水平线
 
             // 绘制蓝色边框
-            var borderPen = new Pen(BorderColor, 4);
-            g.DrawRectangle(borderPen, 1, 1, magnifierSize - 2, magnifierSize - 2); // 绘制边框
+            var borderPen = new Pen(Color.Black, 1);
+            g.DrawRectangle(borderPen, 0, 0, bitmapSize - 1, bitmapSize - 1); // 绘制边框
         }
 
-        _magnifier.Image = _magnifierBmp;
+        // 将放大镜位图设置为PictureBox的图像，并进行缩放
+        _magnifier.Image = new Bitmap(tBitmap, magnifierSize, magnifierSize);
     }
 
     #endregion
