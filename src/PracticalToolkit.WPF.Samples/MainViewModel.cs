@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,6 +14,8 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty] private bool _isDrawBorder;
     [ObservableProperty] private bool _isDrawMagnifier;
+    [ObservableProperty] private double _opacity = 0.1;
+    [ObservableProperty] private Color _borderColor = Color.Red;
     
     [ObservableProperty] private BitmapSource? _bitmapSource;
 
@@ -44,7 +47,7 @@ public partial class MainViewModel : ObservableObject
     private void Screenshot()
     {
         Clear();
-        var options = new RunnerOptions(IsDrawBorder, IsDrawMagnifier);
+        var options = new RunnerOptions(IsDrawBorder, IsDrawMagnifier, Opacity, BorderColor);
         using var runner = new ScreenshotRunner(options);
         using var bitmap = runner.Screenshot();
         BitmapSource = bitmap.ToBitmapSource();
