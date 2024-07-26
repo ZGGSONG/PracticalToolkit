@@ -5,7 +5,7 @@ namespace PracticalToolkit.Screenshot;
 /// <summary>
 ///     提供屏幕截图功能
 ///     * 修改自 <see href="https://github.com/tjden88/ScreenshotCreator" />
-///     * 根据自身需求做了修改
+///     * 根据自身需求做了优化和功能增加
 /// </summary>
 public class ScreenshotRunner(RunnerOptions options) : IDisposable
 {
@@ -15,38 +15,32 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
 
     #region <字段>
 
-    private BackForm? _backHostForm;
+    private ZForm? _backHostForm;
     private Form? _screenshotHost;
-    private PictureBox? _selectFrame;
-    private PictureBox? _magnifier;
+    private ZPictureBox? _selectFrame;
+    private ZPictureBox? _magnifier;
     private Point _startPoint, _endPoint;
+    private Bitmap? _magnifierBitmap;
+    private Bitmap? _actualMagnifierBitmap;
     private bool _isDrawing;
-
     private bool _disposed;
 
     #endregion
-
+    
     #region <属性>
-
-    /// <summary>
-    ///     获取或设置截图窗口的不透明度。
-    /// </summary>
-    private double Opacity { get; set; } = 0.3;
 
     /// <summary>
     ///     获取或设置截图窗口的背景颜色。
     /// </summary>
-    private Color Background { get; set; } = Color.Black;
+    private static Color Background => Color.Black;
 
     /// <summary>
     ///     获取或设置截图窗口的透明色。
     /// </summary>
-    private Color TransparencyKeyColor { get; set; } = Color.Yellow;
+    private static Color TransparencyKeyColor => Color.Yellow;
 
-    /// <summary>
-    ///     边框颜色
-    /// </summary>
-    private Color BorderColor { get; set; } = Color.FromArgb(32, 128, 240);
+    private static int MagnifierWidth => 180;
+    private static int MagnifierHeight => 150;
 
     #endregion
 
@@ -76,9 +70,11 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     /// <returns>用户定义区域的屏幕截图 <see cref="Bitmap" /></returns>
     public Bitmap? Screenshot()
     {
+        if (_isDrawing) return default;
+
         var displayRect = GetBounds();
 
-        _backHostForm = new BackForm(displayRect.Location, displayRect.Size);
+        _backHostForm = new ZForm(displayRect.Location, displayRect.Size);
         // 绘制背景
         using var backgroundBitmap = new Bitmap(displayRect.Width, displayRect.Height);
         using var graphics = Graphics.FromImage(backgroundBitmap);
@@ -88,7 +84,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         _backHostForm.BackgroundImage = backgroundBitmap;
         _backHostForm.Show();
 
-        _selectFrame = new CustomPictureBox(options.IsDrawBorder)
+        _selectFrame = new ZPictureBox(options.BorderColor, options.IsDrawBorder)
         {
             BackColor = TransparencyKeyColor,
             Size = new Size(0, 0),
@@ -99,7 +95,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         {
             ShowInTaskbar = false,
             FormBorderStyle = FormBorderStyle.None,
-            Opacity = Opacity,
+            Opacity = options.Opacity,
             BackColor = Background,
             TransparencyKey = TransparencyKeyColor,
             KeyPreview = true,
@@ -109,9 +105,9 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         // 配置是否启用放大镜
         if (options.IsDrawMagnifier)
         {
-            _magnifier = new PictureBox
+            _magnifier = new ZPictureBox(options.BorderColor, options.IsDrawBorder)
             {
-                Size = new Size(150, 150), // 放大镜的大小
+                Size = new Size(MagnifierWidth, MagnifierHeight), // 放大镜的大小
                 Location = Control.MousePosition
             };
             _screenshotHost.Controls.Add(_magnifier);
@@ -137,24 +133,27 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
         };
 
         if (_screenshotHost.ShowDialog() != DialogResult.OK)
-            return null;
+            return default;
         try
         {
-            _backHostForm.Opacity = 0;
-            _backHostForm.Close();
             _screenshotHost.Opacity = 0;
             _selectFrame.BorderStyle = BorderStyle.None;
             Bitmap bmp = new(_selectFrame.Width, _selectFrame.Height);
             using var g = Graphics.FromImage(bmp);
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.CopyFromScreen(_screenshotHost.Left + _selectFrame.Left, _screenshotHost.Top + _selectFrame.Top, 0, 0,
-                _selectFrame.Size);
+            // 将背景图像中的选定区域绘制到新位图上
+            var sourceRect =
+                new Rectangle(_selectFrame.Left, _selectFrame.Top, _selectFrame.Width, _selectFrame.Height);
+            var destRect = new Rectangle(0, 0, _selectFrame.Width, _selectFrame.Height);
+            g.DrawImage(_backHostForm.BackgroundImage, destRect, sourceRect, GraphicsUnit.Pixel);
+            _backHostForm.Opacity = 0;
+            _backHostForm.Close();
             return bmp;
         }
         catch
         {
-            return null;
+            return default;
         }
     }
 
@@ -250,31 +249,35 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     {
         if (_magnifier == null || _backHostForm?.BackgroundImage is not { } img) return;
 
-        const int magnifierSize = 150; // 放大镜的显示大小
-        const int bitmapSize = 50; // 放大镜位图的实际大小
-        const int zoomFactor = 2; // 放大倍数
-        using var tBitmap = new Bitmap(bitmapSize, bitmapSize);
-        using (var g = Graphics.FromImage(tBitmap))
+        const int zoomFactor = 1; // 放大倍数
+        var bitmapWidth = MagnifierWidth / 3; // 放大镜位图的实际宽度
+        var bitmapHeight = MagnifierHeight / 3; // 放大镜位图的实际高度
+        _actualMagnifierBitmap ??= new Bitmap(bitmapWidth, bitmapHeight);
+        using (var g = Graphics.FromImage(_actualMagnifierBitmap))
         {
             // 使用高质量的图像插值模式
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            var sourceRect = new Rectangle(screenPoint.X - bitmapSize / (2 * zoomFactor),
-                screenPoint.Y - bitmapSize / (2 * zoomFactor), bitmapSize / zoomFactor,
-                bitmapSize / zoomFactor);
-            g.DrawImage(img, new Rectangle(0, 0, bitmapSize, bitmapSize), sourceRect, GraphicsUnit.Pixel);
+            var sourceRect = new Rectangle(
+                screenPoint.X - bitmapWidth / (2 * zoomFactor),
+                screenPoint.Y - bitmapHeight / (2 * zoomFactor),
+                bitmapWidth / zoomFactor,
+                bitmapHeight / zoomFactor);
+            g.DrawImage(img, new Rectangle(0, 0, bitmapWidth, bitmapHeight), sourceRect, GraphicsUnit.Pixel);
 
-            // 绘制蓝色十字标记
-            var crossPen = new Pen(BorderColor, 3);
-            g.DrawLine(crossPen, bitmapSize / 2, 0, bitmapSize / 2, bitmapSize); // 垂直线
-            g.DrawLine(crossPen, 0, bitmapSize / 2, bitmapSize, bitmapSize / 2); // 水平线
-
-            // 绘制蓝色边框
-            var borderPen = new Pen(Color.Black, 1);
-            g.DrawRectangle(borderPen, 0, 0, bitmapSize - 1, bitmapSize - 1); // 绘制边框
+            // 绘制十字标记
+            using var crossPen = new Pen(options.BorderColor, 3);
+            g.DrawLine(crossPen, bitmapWidth / 2, 0, bitmapWidth / 2, bitmapHeight); // 垂直线
+            g.DrawLine(crossPen, 0, bitmapHeight / 2, bitmapWidth, bitmapHeight / 2); // 水平线
         }
 
         // 将放大镜位图设置为PictureBox的图像，并进行缩放
-        _magnifier.Image = new Bitmap(tBitmap, magnifierSize, magnifierSize);
+        _magnifierBitmap ??= new Bitmap(MagnifierWidth, MagnifierHeight);
+        using (var gMagnifier = Graphics.FromImage(_magnifierBitmap))
+        {
+            gMagnifier.DrawImage(_actualMagnifierBitmap, 0, 0, MagnifierWidth, MagnifierHeight);
+        }
+
+        _magnifier.Image = _magnifierBitmap;
     }
 
     #endregion
@@ -304,6 +307,10 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
             _screenshotHost?.Dispose();
             _backHostForm?.Dispose();
             _magnifier?.Dispose();
+            _magnifierBitmap?.Dispose();
+            _actualMagnifierBitmap?.Dispose();
+            _magnifierBitmap = null;
+            _actualMagnifierBitmap = null;
         }
 
         // 释放非托管资源
@@ -312,59 +319,65 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     }
 
     #endregion
-}
 
-/// <summary>
-///     自定义Form作为背景控件
-/// </summary>
-public sealed class BackForm : Form
-{
-    public BackForm(Point location, Size size)
+    #region <控件>
+
+    /// <summary>
+    ///     自定义Form作为背景控件
+    /// </summary>
+    private sealed class ZForm : Form
     {
-        // 启用双缓冲以减少或消除闪烁
-        DoubleBuffered = true;
-
-        ShowInTaskbar = false;
-        TopMost = true;
-        FormBorderStyle = FormBorderStyle.None;
-
-        Load += (_, _) =>
+        public ZForm(Point location, Size size)
         {
-            Location = location;
-            Size = size;
-            BringToFront();
-        };
+            // 启用双缓冲以减少或消除闪烁
+            DoubleBuffered = true;
+
+            ShowInTaskbar = false;
+            TopMost = true;
+            FormBorderStyle = FormBorderStyle.None;
+
+            Load += (_, _) =>
+            {
+                Location = location;
+                Size = size;
+                BringToFront();
+            };
+        }
     }
+
+    private class ZPictureBox : PictureBox
+    {
+        private readonly Pen? _borderPen;
+
+        public ZPictureBox(Color borderColor, bool isDrawBorder = false)
+        {
+            if (!isDrawBorder) return;
+            _borderPen = new Pen(borderColor, 5);
+        }
+
+        protected override void OnPaint(PaintEventArgs pe)
+        {
+            base.OnPaint(pe);
+            if (_borderPen is null) return;
+            // 使用Graphics对象绘制边框
+            pe.Graphics.DrawRectangle(_borderPen, 1, 1, Width - 3, Height - 3);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && _borderPen != null)
+                _borderPen.Dispose();
+            base.Dispose(disposing);
+        }
+    }
+
+    #endregion
 }
 
-public class CustomPictureBox : PictureBox
-{
-    private readonly Pen? _borderPen;
-
-    public CustomPictureBox(bool isDrawBorder = false)
-    {
-        if (!isDrawBorder) return;
-        _borderPen = new Pen(Color.FromArgb(32, 128, 240), 5);
-    }
-
-    protected override void OnPaint(PaintEventArgs pe)
-    {
-        base.OnPaint(pe);
-        if (_borderPen is null) return;
-        // 使用Graphics对象绘制边框
-        pe.Graphics.DrawRectangle(_borderPen, 1, 1, Width - 3, Height - 3);
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing && _borderPen != null)
-            _borderPen.Dispose();
-        base.Dispose(disposing);
-    }
-}
-
-public class RunnerOptions(bool isDrawBorder = false, bool isDrawMagnifier = false)
+public class RunnerOptions(bool isDrawBorder = false, bool isDrawMagnifier = false, double opacity = 0.4, Color borderColor = default)
 {
     public bool IsDrawBorder { get; set; } = isDrawBorder;
     public bool IsDrawMagnifier { get; set; } = isDrawMagnifier;
+    public double Opacity { get; set; } = opacity;
+    public Color BorderColor { get; set; } = borderColor == default ? Color.FromArgb(32, 128, 240) : borderColor;
 }
