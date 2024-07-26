@@ -10,11 +10,13 @@ using var runner = new ScreenshotRunner();
 using var bitmap = runner.Screenshot();
 ```
 
-> The following is an example of setting the capture area and whether to draw the border and magnifier
+> The following is an example of setting the capture area
 ```cs
-var IsDrawBorder = true;	// Draw the border of the capture area
-var IsDrawMagnifier = true;	// Draw the magnifier
-var options = new RunnerOptions(IsDrawBorder, IsDrawMagnifier);
+var isDrawBorder = true;	// Draw the border of the capture area
+var isDrawMagnifier = true;	// Draw the magnifier
+var opacity = 0.5f;	        // The opacity of the capture area
+var borderColor = Color.Red;// The color of the border of the capture area
+var options = new RunnerOptions(isDrawBorder, isDrawMagnifier, opacity, borderColor);
 using var runner = new ScreenshotRunner(options);
 using var bitmap = runner.Screenshot();
 

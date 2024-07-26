@@ -41,6 +41,11 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
 
     private static int MagnifierWidth => 180;
     private static int MagnifierHeight => 150;
+    
+    /// <summary>
+    ///     是否在截图中
+    /// </summary>
+    public bool IsDrawing => _isDrawing;
 
     #endregion
 
