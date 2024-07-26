@@ -18,12 +18,9 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     private BackForm? _backHostForm;
     private Form? _screenshotHost;
     private PictureBox? _selectFrame;
+    private PictureBox? _magnifier;
     private Point _startPoint, _endPoint;
     private bool _isDrawing;
-
-    // 在ScreenshotRunner类中添加字段
-    private PictureBox? _magnifier;
-    private Bitmap? _magnifierBmp;
 
     private bool _disposed;
 
@@ -34,22 +31,22 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     /// <summary>
     ///     获取或设置截图窗口的不透明度。
     /// </summary>
-    public double Opacity { get; set; } = 0.3;
+    private double Opacity { get; set; } = 0.3;
 
     /// <summary>
     ///     获取或设置截图窗口的背景颜色。
     /// </summary>
-    public Color Background { get; set; } = Color.Black;
+    private Color Background { get; set; } = Color.Black;
 
     /// <summary>
     ///     获取或设置截图窗口的透明色。
     /// </summary>
-    public Color TransparencyKeyColor { get; set; } = Color.Yellow;
+    private Color TransparencyKeyColor { get; set; } = Color.Yellow;
 
     /// <summary>
     ///     边框颜色
     /// </summary>
-    public Color BorderColor { get; set; } = Color.FromArgb(32, 128, 240);
+    private Color BorderColor { get; set; } = Color.FromArgb(32, 128, 240);
 
     #endregion
 
@@ -59,7 +56,7 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
     ///     获取所有屏幕的边界。
     /// </summary>
     /// <returns>表示所有屏幕边界的矩形</returns>
-    public static Rectangle GetBounds()
+    private static Rectangle GetBounds()
     {
         int minX = int.MaxValue, minY = int.MaxValue, maxX = 0, maxY = 0;
         foreach (var scr in Screen.AllScreens)
@@ -306,7 +303,6 @@ public class ScreenshotRunner(RunnerOptions options) : IDisposable
             _selectFrame?.Dispose();
             _screenshotHost?.Dispose();
             _backHostForm?.Dispose();
-            _magnifierBmp?.Dispose();
             _magnifier?.Dispose();
         }
 
