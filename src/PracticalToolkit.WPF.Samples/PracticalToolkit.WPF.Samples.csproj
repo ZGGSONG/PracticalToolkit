@@ -5,6 +5,7 @@
         <TargetFramework>net8.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
         <IsPackable>false</IsPackable>
+        <ApplicationIcon>Assets\favicon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +15,18 @@
     <ItemGroup>
         <ProjectReference Include="..\PracticalToolkit.Screenshot\PracticalToolkit.Screenshot.csproj"/>
         <ProjectReference Include="..\PracticalToolkit.WPF\PracticalToolkit.WPF.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\test.practicaltoolkit" />
+      <Content Include="Assets\test.practicaltoolkit">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\favicon.ico" />
+      <Resource Include="Assets\favicon.ico" />
     </ItemGroup>
 
 </Project>

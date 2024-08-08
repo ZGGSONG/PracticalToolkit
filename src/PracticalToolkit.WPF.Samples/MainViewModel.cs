@@ -1,11 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using PracticalToolkit.Screenshot;
+using PracticalToolkit.WPF.Helpers;
 using PracticalToolkit.WPF.Samples.Models;
 
 namespace PracticalToolkit.WPF.Samples;
@@ -98,5 +100,36 @@ public partial class MainViewModel : ObservableObject
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
+    }
+
+
+    [RelayCommand]
+    private void AddAssociation()
+    {
+        if (!ProgressHelper.IsRunAsAdmin())
+        {
+            ProgressHelper.ReStartAsAdmin();
+            return;
+        }
+        var path = Process.GetCurrentProcess().MainModule?.FileName ?? "";
+        FileExtHelper.AssociateFileExtension(".practicaltoolkit", "practicaltoolkit.wpf.sample", path);
+    }
+    
+    [RelayCommand]
+    private void RemoveAssociation()
+    {
+        if (!ProgressHelper.IsRunAsAdmin())
+        {
+            ProgressHelper.ReStartAsAdmin();
+            return;
+        }
+        FileExtHelper.RemoveFileAssociation(".practicaltoolkit", "practicaltoolkit.wpf.sample");
+    }
+    
+    [RelayCommand]
+    private void ExistAssociation()
+    {
+        var ret = FileExtHelper.CheckFileAssociation(".practicaltoolkit", "practicaltoolkit.wpf.sample");
+        MessageBox.Show($"check result: {ret}");
     }
 }

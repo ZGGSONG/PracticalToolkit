@@ -155,3 +155,22 @@ public enum Fruit
     IconSize="14"
     Tag="请输入数字..." />
 ```
+
+## ProgressHelper
+
+```csharp
+if (!ProgressHelper.IsRunAsAdmin())
+{
+    ProgressHelper.ReStartAsAdmin();
+    return;
+}
+```
+
+## FileExtHelper
+
+```csharp
+var path = Process.GetCurrentProcess().MainModule.FileName;
+FileExtHelper.AssociateFileExtension(".practicaltoolkit", "practicaltoolkit.wpf.sample", path);
+FileExtHelper.RemoveFileAssociation(".practicaltoolkit", "practicaltoolkit.wpf.sample");
+FileExtHelper.CheckFileAssociation(".practicaltoolkit", "practicaltoolkit.wpf.sample");
+```

@@ -170,6 +170,14 @@
                     </Image>
                 </Grid>
             </TabItem>
+            
+            <TabItem Header="FileExtensionAssociation">
+                <StackPanel>
+                    <Button Content="Add" Command="{Binding AddAssociationCommand}" />
+                    <Button Content="IsExist" Command="{Binding ExistAssociationCommand}" />
+                    <Button Content="Remove" Command="{Binding RemoveAssociationCommand}" />
+                </StackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
